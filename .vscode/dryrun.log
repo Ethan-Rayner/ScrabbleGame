@@ -1,0 +1,11 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/mnt/c/Users/james/OneDrive/Documents/Eclipse/apt-Group-T'
+g++ -Wall -Werror -std=c++14 -g -O -c Tile.cpp
+ 
+g++ -Wall -Werror -std=c++14 -g -O -c Node.cpp
+g++ -Wall -Werror -std=c++14 -g -O -c LinkedList.cpp
+ 
+g++ -Wall -Werror -std=c++14 -g -O -c scrabble.cpp
+g++ -Wall -Werror -std=c++14 -g -O -o scrabble Tile.o Node.o LinkedList.o scrabble.o
+make: Leaving directory '/mnt/c/Users/james/OneDrive/Documents/Eclipse/apt-Group-T'
+ 

@@ -1,16 +1,19 @@
 
+#include <iostream>
+#include <bits/stdc++.h>
 #include "LinkedList.h"
+#include <assert.h>
 
-// Node::Node(Tile *tile, Node *next) :
-//    tile(tile),
-//    next(next)
-// {}
+using namespace std;
+
+Node::Node(Tile *tile, Node *next) : tile(tile),
+                                     next(next)
+{
+}
 
 LinkedList::LinkedList()
 {
    head = nullptr;
-
-   // TODO
 }
 
 LinkedList::~LinkedList()
@@ -19,35 +22,80 @@ LinkedList::~LinkedList()
 
 int LinkedList::size()
 {
-
-   int length = 0;
-
+   int count = 0;
    Node *current = head;
-   while (current != nullptr)
+
+   while (current != NULL)
    {
-      ++length;
+      count++;
       current = current->next;
    }
-   return length;
+   return count;
 }
 
-Tile *LinkedList::get(int index)
+Tile *LinkedList::get(Node *head_ref, int index)
 {
-   Tile *retTile = nullptr;
+   Node *current = head;
 
-   if (index >= 0 && index < size())
+   int count = 0;
+   while (current != NULL)
    {
+      if (count == index)
+         return (current->tile);
+      count++;
+      current = current->next;
+   }
 
-      int counter = 0;
-      Node *current = head;
+   assert(0);
+}
 
-      while (counter < index)
+void LinkedList::add(Node *head_ref, Tile *newTile)
+{
+   Node *new_node = new Node(newTile, head_ref);
+   new_node->tile = newTile;
+   new_node->next = (head_ref);
+
+   (head_ref) = new_node;
+}
+
+void LinkedList::remove(Node *head_ref, Tile* key)
+{
+   Node *temp = head_ref;
+   Node *prev = NULL;
+
+   if (temp != NULL && temp->tile == key)
+   {
+      head_ref = temp->next;
+      delete temp;
+      return;
+   }
+   else
+   {
+      while (temp != NULL && temp->tile != key)
       {
-         ++counter;
-         current = current->next;
+         prev = temp;
+         temp = temp->next;
       }
 
-      retTile = current->tile;
+      if (temp == NULL)
+      {
+         return;
+      }
+      prev->next = temp->next;
+      delete temp;
    }
-   return retTile;
+}
+
+void LinkedList::clear(Node *head_ref)
+{
+   Node *current = head_ref;
+   Node *next = NULL;
+
+   while (current != NULL)
+   {
+      next = current->next;
+      free(current);
+      current = next;
+   }
+   head_ref = NULL;
 }
