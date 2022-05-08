@@ -1,15 +1,10 @@
 
 #include <iostream>
-#include <bits/stdc++.h>
 #include "LinkedList.h"
 #include <assert.h>
+#include "Node.h"
+//#include <bits/stdc++.h>
 
-using namespace std;
-
-Node::Node(Tile *tile, Node *next) : tile(tile),
-                                     next(next)
-{
-}
 
 LinkedList::LinkedList()
 {
