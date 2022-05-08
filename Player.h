@@ -10,10 +10,14 @@ public:
     ~Player();
     std::string getName();
     int getScore();
-    std::string setName();
-    int setScore();
-
+    void setScore(int score);
+    void setName(std::string name);
     
+
+
+private:
+   string name;
+   int score;
 
 };
 

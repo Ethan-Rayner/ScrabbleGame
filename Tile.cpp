@@ -1,15 +1,26 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "Tiles.h"
+#include "Tile.h"
+
 using namespace std;
 
-Tile::Tile()
+Tile::Tile(char letter, int value)
 {
+	this->letter = letter;
+	this->value = value;
 }
 
 Tile::~Tile()
 {
+}
+
+char Tile::getLetter(){
+	return letter;
+}
+
+int Tile::getValue(){
+	return value;
 }
 
 void Tile::S_Tile_file()
