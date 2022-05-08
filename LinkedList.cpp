@@ -15,9 +15,18 @@ LinkedList::LinkedList()
 {
    head = nullptr;
 }
-
+//No idea if this will work, maybe someone take a look just to make sure
 LinkedList::~LinkedList()
 {
+   Node *current = head;
+   current = head;
+
+   while(current != nullptr)
+   {
+      current = current->next;
+      delete head;
+      head = current;
+   }
 }
 
 int LinkedList::size()
