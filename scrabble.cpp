@@ -71,10 +71,16 @@ vector<vector<int> > board(ROWS, vector<int> (COLUMNS)) ;
 
 void printBoard(){
 
-
+cout << " ";
     //printing out column
   for(int column = 0; column < COLUMNS; column++){
-        cout << column;
+     if(column > 9){
+        cout << column << "" << "|";
+     }
+     else{
+        cout << column << " " << "|";
+     }
+        
     }
 
         cout << endl;
