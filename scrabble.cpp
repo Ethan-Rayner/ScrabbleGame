@@ -78,44 +78,45 @@ int main(void)
    return EXIT_SUCCESS;
 }
 
-vector<vector<int>> board(ROWS, vector<int> (COLUMNS)) ;
+//vector<vector<int>> board(ROWS, vector<int> (COLUMNS)) ;
 
-void printBoard(){
+// void printBoard(){
 
-cout << "    ";
-    //printing out column
-  for(int column = 0; column < COLUMNS; column++){
-     if(column > 9){
-        cout << column << " ";
-     }
-     else{
-        cout << column << "  ";
-     }
+// cout << "    ";
+//     //printing out column
+//   for(int column = 0; column < COLUMNS; column++){
+//      if(column > 9){
+//         cout << column << " ";
+//      }
+//      else{
+//         cout << column << "  ";
+//      }
         
-    }
+//     }
 
-        cout << endl;
-        cout << "------------------------";
-        cout << "------------------------";
-        cout << endl;
+//         cout << endl;
+//         cout << "------------------------";
+//         cout << "------------------------";
+//         cout << endl;
 
-char rowTag = CHAR;
+// char rowTag = CHAR;
 
-//Printing out rows
-for (int row = 0; row < ROWS; row++) {
-        cout << rowTag << "  " << "|";     
-        rowTag++;
+// //Printing out rows
+// for (int row = 0; row < ROWS; row++) {
+//         cout << rowTag << "  " << "|";     
+//         rowTag++;
 
-        for (int column = 0; column < COLUMNS; column++) {
+//         for (int column = 0; column < COLUMNS; column++) {
             
-            if (board[row][column] == 0) { 
-                cout << "  ";
-            } else {
-                cout << board[row][column];  
-            }
-            cout << "|"; 
-        } 
-        cout << endl; 
-    }  
+//             if (board[row][column] == 0) { 
+//                 cout << "  ";
+//             } else {
+//                 cout << board[row][column];  
+//             }
+//             cout << "|"; 
+//         } 
+//         cout << endl; 
+//     }  
      
-}
+
+//}

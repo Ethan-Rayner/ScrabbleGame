@@ -14,6 +14,7 @@ Game::Game(Player player1Initial, Player player2Initial, vector<vector<int>> boa
 Game::~Game(){}
 
 void Game::startGame(){
+
     bool gameGoing = true;
     bool turnPass;
     int passCount1 = 0;
@@ -22,6 +23,7 @@ void Game::startGame(){
     //player one turn
     turnPass = false;
     cout << player1->getName() << "'s turn" << endl;
+    printBoard();
     turnPass = player1->startTurn();
     //checks if player has passed twice in a row
     if (turnPass){
@@ -37,6 +39,7 @@ void Game::startGame(){
     if (gameGoing){
     turnPass = false;
     cout << player2->getName() << "'s turn" << endl;
+    printBoard();
     turnPass = player2->startTurn();
     //Checks if player has passed twice in a row
     if (turnPass){
