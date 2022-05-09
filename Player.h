@@ -14,7 +14,7 @@ public:
     void setName(std::string name);
     void placeTile(char letter);
     std::string name;
-    void startTurn();
+    bool startTurn();
     void replaceTurn();
     void placeTurn();
     

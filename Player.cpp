@@ -28,7 +28,7 @@ void Player::setScore(int score){
     this->score = score;
 }
 
-void Player::startTurn(){
+bool Player::startTurn(){
     std::string input;
     bool isTurn = true;
 
@@ -37,19 +37,24 @@ void Player::startTurn(){
     cin >> input;
     if (input == "Pass"){
         isTurn = false;
+        return true;
     }
     else if (input == "Replace"){
         replaceTurn();
         isTurn = false;
+        return false;
     }
     else if (input == "Place"){
         placeTurn();
         isTurn = false;
+        return false;
     }
     else{
         cout << "--Please enter a valid input--" << endl;
+        
     }
     }
+    return false;
 }
 
 
