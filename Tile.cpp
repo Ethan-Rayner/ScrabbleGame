@@ -47,7 +47,7 @@ void Tile::S_Dictionary_file() {
 		cout << "The file is opened fail" << endl;
   }
 		return;
-	}
+	
 	while (getline(file, buf)) {}
 	file.close();
 }
