@@ -49,6 +49,10 @@ bool Player::startTurn(){
         isTurn = false;
         return false;
     }
+    else if (input == "Save"){
+        isTurn=false;
+        return false; //make this 2 to end game immediately?
+    }
     else{
         cout << "--Please enter a valid input--" << endl << endl;
         

@@ -16,6 +16,7 @@ using std::cin;
 using std::endl;
 
 void printBoard();
+void loadGame();
 
 int main(void)
 {
@@ -43,8 +44,8 @@ int main(void)
       vector<vector<int>> board(ROWS, vector<int> (COLUMNS));
       LinkedList player1Hand;
       LinkedList player2Hand;
-      Player player1("Player 1", 0, player1Hand);
-      Player player2("Player 2", 0, player2Hand);
+      Player player1("Player1", 0, player1Hand);
+      Player player2("Player2", 0, player2Hand);
       
       //add them to game
       Game game(player1, player2, board);
@@ -54,7 +55,7 @@ int main(void)
    }
    else if (selection == LOAD_GAME)
    {
-      // LOAD GAME CODE HERE
+      loadGame();
    }
    else if (selection == CREDITS)
    {
@@ -78,6 +79,38 @@ int main(void)
    return EXIT_SUCCESS;
 }
 
+void loadGame(){
+   std::string filename;
+   bool isExist = true;
+   ifstream loadFile;
+   
+   while (isExist){
+   cout << "Select a file to open" << endl;
+   cin >> filename;
+   
+   loadFile.open(filename);
+   isExist = loadFile.fail();
+   if (isExist){
+      cout << "Invalid input, please enter the files full name including extensions" << endl;
+   }
+   }
+   string line;
+
+   getline(loadFile, line);
+   cout << line;
+   vector<vector<int>> board(ROWS, vector<int> (COLUMNS));
+   LinkedList player1Hand;
+   LinkedList player2Hand;
+   Player player1("Player1", 0, player1Hand);
+   Player player2("Player2", 0, player2Hand);
+   
+   //add them to game
+   Game game(player1, player2, board);
+
+   
+
+
+}
 //vector<vector<int>> board(ROWS, vector<int> (COLUMNS)) ;
 
 // void printBoard(){

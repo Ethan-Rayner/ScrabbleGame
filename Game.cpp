@@ -35,7 +35,8 @@ void Game::startGame(){
         passCount1 = 0;
     }
     if (passCount1 == 2){break;}
-
+    
+    saveBoard(false);
 
     //player two turn
     if (gameGoing){
@@ -52,10 +53,31 @@ void Game::startGame(){
     }
     if (passCount2 == 2){break;}
     }
-
+    saveBoard(true);
     }
 }
 
+void Game::saveBoard(bool turn){
+    std::ofstream outfile ("test.txt");
+
+outfile << player1->getName() << " " <<  player1->getScore() << endl;
+outfile << player2->getName() << " " << player2->getScore() << endl;
+    //printing out column
+        
+char rowTag = CHAR;
+
+//Printing out rows
+for (int row = 0; row < ROWS; row++) {
+        rowTag++;
+
+        for (int column = 0; column < COLUMNS; column++) {
+                outfile << board[row][column]; 
+        } 
+        outfile << endl; 
+    }  
+
+    outfile.close();
+}
 
 void Game::printBoard(){
 
