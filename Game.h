@@ -12,7 +12,7 @@ public:
     Game(Player player1, Player player2, vector<vector<int>> board);
     ~Game();
     void printBoard();
-
+    void startGame();
 
 
 private:

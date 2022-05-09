@@ -13,10 +13,13 @@ public:
     void setScore(int score);
     void setName(std::string name);
     void placeTile(char letter);
-
-
+    std::string name;
+    void startTurn();
+    void replaceTurn();
+    void placeTurn();
+    
 private:
-   string name;
+   
    int score;
    LinkedList* playerHand;
 

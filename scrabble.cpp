@@ -6,8 +6,8 @@
 
 
 #define EXIT_SUCCESS 0
-#define COLUMNS      26
-#define ROWS         26
+#define COLUMNS      15
+#define ROWS         15
 #define CHAR    'A'
 
 using std::vector;
@@ -49,6 +49,7 @@ int main(void)
       //add them to game
       Game game(player1, player2, board);
       game.printBoard();
+      game.startGame();
       // NEW GAME CODE HERE
    }
    else if (selection == LOAD_GAME)

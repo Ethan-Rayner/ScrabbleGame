@@ -1,8 +1,8 @@
 
 #include "Game.h"
 #define EXIT_SUCCESS 0
-#define COLUMNS      26
-#define ROWS         26
+#define COLUMNS      15
+#define ROWS         15
 #define CHAR    'A'
 
 Game::Game(Player player1Initial, Player player2Initial, vector<vector<int>> board){
@@ -12,6 +12,12 @@ Game::Game(Player player1Initial, Player player2Initial, vector<vector<int>> boa
 }
 
 Game::~Game(){}
+
+void Game::startGame(){
+    cout << player1->getName() << "'s turn" << endl;
+    player1->startTurn();
+}
+
 
 void Game::printBoard(){
 

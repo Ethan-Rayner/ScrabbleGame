@@ -28,6 +28,61 @@ void Player::setScore(int score){
     this->score = score;
 }
 
-void placeTile(char letter){
-    
+void Player::startTurn(){
+    std::string input;
+    bool isTurn = true;
+
+    while(isTurn){
+    cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl;
+    cin >> input;
+    if (input == "Pass"){
+        isTurn = false;
+    }
+    else if (input == "Replace"){
+        replaceTurn();
+        isTurn = false;
+    }
+    else if (input == "Place"){
+        placeTurn();
+        isTurn = false;
+    }
+    else{
+        cout << "--Please enter a valid input--" << endl;
+    }
+    }
+}
+
+
+void Player::replaceTurn(){
+    char tile;
+    bool isLetter = true;
+    while (isLetter){
+        cout << "Please select the tile you want to replace" << endl;
+        cin >> tile;
+        if(isalpha(tile)){
+            cout << "Replaced tile: " << tile << endl;
+            isLetter = false;
+        }
+        else{
+            cout << "Please enter a valid tile." << endl;
+        }
+
+    }
+}
+
+void Player::placeTurn(){
+    char tile;
+    bool isLetter = true;
+    while (isLetter){
+        cout << "Please select the tile you want to place" << endl;
+        cin >> tile;
+        if(isalpha(tile)){
+            cout << "Placed tile: " << tile << endl;
+            isLetter = false;
+        }
+        else{
+            cout << "Please enter a valid tile." << endl;
+        }
+
+    }
 }
