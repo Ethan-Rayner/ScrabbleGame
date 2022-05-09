@@ -39,9 +39,14 @@ int main(void)
    // Menu selection
    if (selection == NEW_GAME)
    {
+      //create new game objects
       vector<vector<int>> board(ROWS, vector<int> (COLUMNS));
-      Player player1("Player 1", 10);
-      Player player2("Player 2", 0);
+      LinkedList player1Hand;
+      LinkedList player2Hand;
+      Player player1("Player 1", 0, player1Hand);
+      Player player2("Player 2", 0, player2Hand);
+      
+      //add them to game
       Game game(player1, player2, board);
       game.printBoard();
       // NEW GAME CODE HERE

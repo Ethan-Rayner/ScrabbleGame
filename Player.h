@@ -6,18 +6,19 @@ class Player
 {
 
 public:
-    Player(std::string name, int score);
+    Player(std::string name, int score, LinkedList hand);
     ~Player();
     std::string getName();
     int getScore();
     void setScore(int score);
     void setName(std::string name);
-    
+    void placeTile(char letter);
 
 
 private:
    string name;
    int score;
+   LinkedList* playerHand;
 
 };
 

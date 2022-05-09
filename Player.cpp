@@ -1,10 +1,10 @@
 #include "Player.h"
 
 
-Player::Player(std::string name, int score){
+Player::Player(std::string name, int score, LinkedList hand){
     this->name = name;
     this->score = score;
-    
+    playerHand = new LinkedList(hand);
 }
 
 //Deconstructor
