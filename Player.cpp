@@ -4,6 +4,7 @@
 Player::Player(std::string name, int score){
     this->name = name;
     this->score = score;
+    
 }
 
 //Deconstructor
@@ -25,4 +26,8 @@ void Player::setName(std::string name){
 
 void Player::setScore(int score){
     this->score = score;
+}
+
+void placeTile(char letter){
+    
 }

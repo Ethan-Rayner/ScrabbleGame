@@ -1,5 +1,6 @@
 
 #include "LinkedList.h"
+#include "Game.h"
 #include <iostream>
 #include <vector>
 
@@ -38,8 +39,12 @@ int main(void)
    // Menu selection
    if (selection == NEW_GAME)
    {
+      vector<vector<int>> board(ROWS, vector<int> (COLUMNS));
+      Player player1("Player 1", 10);
+      Player player2("Player 2", 0);
+      Game game(player1, player2, board);
+      game.printBoard();
       // NEW GAME CODE HERE
-      printBoard();
    }
    else if (selection == LOAD_GAME)
    {
@@ -67,7 +72,7 @@ int main(void)
    return EXIT_SUCCESS;
 }
 
-vector<vector<int> > board(ROWS, vector<int> (COLUMNS)) ;
+vector<vector<int>> board(ROWS, vector<int> (COLUMNS)) ;
 
 void printBoard(){
 
