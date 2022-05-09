@@ -1,5 +1,7 @@
 
 #include "Game.h"
+#include <iostream>
+#include <fstream>
 #define EXIT_SUCCESS 0
 #define COLUMNS      15
 #define ROWS         15
