@@ -50,7 +50,7 @@ bool Player::startTurn(){
         return false;
     }
     else{
-        cout << "--Please enter a valid input--" << endl;
+        cout << "--Please enter a valid input--" << endl << endl;
         
     }
     }
