@@ -16,7 +16,7 @@ using std::cin;
 using std::endl;
 
 void printBoard();
-void loadGame();
+void loadGame(string filename);
 LinkedList* createBag(LinkedList* tileBag, bool gameLoad);
 
 int main(void)
@@ -87,14 +87,11 @@ int main(void)
    return EXIT_SUCCESS;
 }
 
-void loadGame(){
-   std::string filename;
+void loadGame(string filename){
    bool isExist = true;
    ifstream loadFile;
    
    while (isExist){
-   cout << "Select a file to open" << endl;
-   cin >> filename;
    
    loadFile.open(filename);
    isExist = loadFile.fail();
@@ -128,6 +125,8 @@ LinkedList* createBag(LinkedList* tileBag, bool gameLoad)
    if (gameLoad){
       cout << "Please enter the filename to load";
       cin >> inputFile;
+      cout << "here";
+      //loadGame(inputFile);
       //call loadGame here
    }
    ifstream file;
