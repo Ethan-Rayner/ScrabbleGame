@@ -18,42 +18,47 @@ Game::~Game(){}
 void Game::startGame(){
 
     bool gameGoing = true;
-    bool turnPass;
+    int turnPass;
     int passCount1 = 0;
     int passCount2 = 0;
+    std::string input;
     while(gameGoing){
     //player one turn
-    turnPass = false;
+    turnPass = 0;
     cout << player1->getName() << "'s turn" << endl;
     printBoard();
-    turnPass = player1->startTurn();
+    cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
+    cin >> input;
+    turnPass = player1->startTurn(input);
     //checks if player has passed twice in a row
-    if (turnPass){
-        passCount1 += 1;
-    }
-    else{
+    if (turnPass == 0){
         passCount1 = 0;
     }
-    if (passCount1 == 2){break;}
-    
-    saveBoard(false);
+    passCount1 += turnPass;
+    if (passCount1 == 2){
+        saveBoard(false);
+        break;
+        }
 
     //player two turn
     if (gameGoing){
-    turnPass = false;
+    turnPass = 0;
     cout << player2->getName() << "'s turn" << endl;
     printBoard();
-    turnPass = player2->startTurn();
+    cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
+    cin >> input;
+    turnPass = player2->startTurn(input);
     //Checks if player has passed twice in a row
-    if (turnPass){
-        passCount2 += 1;
-    }
-    else{
+    if (turnPass == 0){
         passCount2 = 0;
     }
-    if (passCount2 == 2){break;}
-    }
+    passCount2 += turnPass;
+    if (passCount2 == 2)
+    {break;
     saveBoard(true);
+    }
+    }
+    
     }
 }
 

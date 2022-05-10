@@ -28,37 +28,32 @@ void Player::setScore(int score){
     this->score = score;
 }
 
-bool Player::startTurn(){
-    std::string input;
+int Player::startTurn(std::string input){
+    
     bool isTurn = true;
-
     while(isTurn){
-    cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl;
-    cin >> input;
+    
     if (input == "Pass"){
-        isTurn = false;
-        return true;
+        return 1;
     }
     else if (input == "Replace"){
         replaceTurn();
-        isTurn = false;
-        return false;
+        return 0;
     }
     else if (input == "Place"){
         placeTurn();
-        isTurn = false;
-        return false;
+        return 0;
     }
     else if (input == "Save"){
-        isTurn=false;
-        return false; //make this 2 to end game immediately?
+        return 2; //make this 2 to end game immediately?
     }
     else{
         cout << "--Please enter a valid input--" << endl << endl;
-        
+        cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
+        cin >> input;
     }
     }
-    return false;
+    return 0;
 }
 
 
