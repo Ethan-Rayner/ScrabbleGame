@@ -17,6 +17,7 @@ using std::endl;
 
 void printBoard();
 void loadGame();
+void createList();
 
 int main(void)
 {
@@ -55,7 +56,7 @@ int main(void)
    }
    else if (selection == LOAD_GAME)
    {
-      loadGame();
+      createList();
    }
    else if (selection == CREDITS)
    {
@@ -110,6 +111,41 @@ void loadGame(){
    
 
 
+}
+
+void createList()
+{
+   ifstream file;
+   string line;
+   file.open("scrabbletiles.txt", ios::in | ios::binary);
+   // checking if file is open
+   if (file.is_open())
+   {
+      cout << "The file is opened fail" << endl;
+      while (getline(file, line))
+      {
+         std::string delimiter = " ";
+         std::string letter = line.substr(0, line.find(delimiter));
+         std::string value = line.substr(line.find(delimiter), -1);
+         cout << "Letter: " << letter << endl << "Number:" << value << endl;
+         // Code for testing if values are printed out correctly
+         // cout << "Letter: " << letter << " Value: " << value << endl;
+
+         // LinkedList* tilebag = new LinkedList();
+         // head = NULL;
+         // for (int i = 0; i < 98; i++)
+         // {
+         //    Tile* tile = new Tile(letter, value);
+         //     //head = new Node (letter, value);
+         //    tilebag->add(tile);
+         // }
+      }
+      // while (!file.eof())
+      // {
+      // }
+
+      // file.close();
+   }
 }
 //vector<vector<int>> board(ROWS, vector<int> (COLUMNS)) ;
 
