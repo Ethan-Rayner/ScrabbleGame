@@ -19,6 +19,8 @@ public:
    // Add the value to the back of the Linked List
    void add(Node *head_ref, Tile *newTile);
 
+   void addTile(Node* head);
+
    // Remove the value at the back of the Linked List
    void remove(Node *head_ref, Tile* key);
 
