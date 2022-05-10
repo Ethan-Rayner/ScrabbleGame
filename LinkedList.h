@@ -14,18 +14,18 @@ public:
    int size();
 
    // Get the value at the given index.
-   Tile *get(Node *head_ref, int index);
+   Tile *get(int index);
 
    // Add the value to the back of the Linked List
-   void add(Node *head_ref, Tile *newTile);
+   void add(Tile *newTile);
 
    void addTile(Node* head);
 
    // Remove the value at the back of the Linked List
-   void remove(Node *head_ref, Tile* key);
+   void remove(Tile* key);
 
    // Removes all values from the Linked List
-   void clear(Node *head_ref);
+   void clear();
 
 private:
    Node *head;

@@ -115,19 +115,25 @@ void loadGame(){
 
 void createList()
 {
+
    ifstream file;
    string line;
+   LinkedList tileBag;
    file.open("scrabbletiles.txt", ios::in | ios::binary);
    // checking if file is open
    if (file.is_open())
    {
-      cout << "The file is opened fail" << endl;
       while (getline(file, line))
       {
          std::string delimiter = " ";
          std::string letter = line.substr(0, line.find(delimiter));
-         std::string value = line.substr(line.find(delimiter), -1);
-         cout << "Letter: " << letter << endl << "Number:" << value << endl;
+         string value = line.substr(line.find(delimiter), -1);
+         int score = stoi(value);
+         char letterChar = letter[0];
+         Tile* newTile = new Tile(letterChar, score);
+         
+         tileBag.add(newTile);
+         
          // Code for testing if values are printed out correctly
          // cout << "Letter: " << letter << " Value: " << value << endl;
 
@@ -140,6 +146,13 @@ void createList()
          //    tilebag->add(tile);
          // }
       }
+
+      for(int i = 0; i < tileBag.size(); i++){
+         cout << tileBag.get(i)->getLetter();
+         cout << tileBag.get(i)->getValue() << endl;
+      }
+
+
       // while (!file.eof())
       // {
       // }
