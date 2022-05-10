@@ -17,6 +17,9 @@ public:
     int startTurn(std::string input);
     void replaceTurn();
     void placeTurn();
+    void printHand();
+    void drawTile(Tile *newTile);
+    LinkedList* getHand();
     
 private:
    

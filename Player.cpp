@@ -12,8 +12,24 @@ Player::~Player(){
     
 }
 
+//TODO DRAWTILE
+void Player::drawTile(Tile *newTile){
+
+}
+
+void Player::printHand(){
+        for(int i = 0; i < playerHand->size(); i++){
+         cout << playerHand->get(i)->getLetter();
+         cout << playerHand->get(i)->getValue() << endl;
+      }
+}
+
 std::string Player::getName(){
     return name;
+}
+
+LinkedList* Player::getHand(){
+    return playerHand;
 }
 
 int Player::getScore(){

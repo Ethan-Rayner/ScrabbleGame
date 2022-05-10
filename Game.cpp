@@ -7,13 +7,40 @@
 #define ROWS         15
 #define CHAR    'A'
 
-Game::Game(Player player1Initial, Player player2Initial, vector<vector<int>> board){
+Game::Game(Player player1Initial, Player player2Initial, vector<vector<int>> board, LinkedList* tileBag){
     player1 = new Player(player1Initial);
     player2 = new Player(player2Initial);
     this->board = board;
+    bag = tileBag;
+    drawPlayer(); //TODO make players draw up to 7 tiles
+
 }
 
 Game::~Game(){}
+
+//TODo condense startGame into here 
+void Game::takeTurn(Player* player){
+    bool gameGoing = true;
+    int turnPass;
+    int passCount1 = 0;
+    int passCount2 = 0;
+    std::string input;
+    //player one turn
+    turnPass = 0;
+    cout << player->getName() << "'s turn" << endl;
+    printBoard();
+    cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
+    cin >> input;
+    turnPass = player->startTurn(input);
+    //checks if player has passed twice in a row
+    if (turnPass == 0){
+        passCount1 = 0;
+    }
+    passCount1 += turnPass;
+    if (passCount1 == 2){
+        saveBoard(false);
+    }
+}
 
 void Game::startGame(){
 
@@ -62,8 +89,19 @@ void Game::startGame(){
     }
 }
 
+void Game::drawPlayer(Player* player){
+    while (player->getHand()->size() < 7){
+        cout << "Hand < 7";
+        player->drawTile();
+    }
+}
+
 void Game::saveBoard(bool turn){
-std::ofstream outfile ("test.txt");
+string fileName;
+cout << "Where would you like to save?";
+cin >> fileName;
+
+std::ofstream outfile (fileName);
 
 outfile << player1->getName() << " " <<  player1->getScore() << endl;
 outfile << player2->getName() << " " << player2->getScore() << endl;

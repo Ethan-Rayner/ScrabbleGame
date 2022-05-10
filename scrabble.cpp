@@ -17,7 +17,7 @@ using std::endl;
 
 void printBoard();
 void loadGame();
-void createList();
+LinkedList* createBag(LinkedList* tileBag, bool gameLoad);
 
 int main(void)
 {
@@ -45,18 +45,25 @@ int main(void)
       vector<vector<int>> board(ROWS, vector<int> (COLUMNS));
       LinkedList player1Hand;
       LinkedList player2Hand;
+      LinkedList* tileBag = new LinkedList();
+      tileBag = createBag(tileBag, false);
       Player player1("Player1", 0, player1Hand);
       Player player2("Player2", 0, player2Hand);
-      
       //add them to game
-      Game game(player1, player2, board);
-      game.printBoard();
+      Game game(player1, player2, board, tileBag);
       game.startGame();
       // NEW GAME CODE HERE
    }
    else if (selection == LOAD_GAME)
    {
-      createList();
+      
+      LinkedList* tileBag = new LinkedList();
+      tileBag = createBag(tileBag, true);
+      for(int i = 0; i < tileBag->size(); i++){
+         cout << tileBag->get(i)->getLetter();
+         cout << tileBag->get(i)->getValue() << endl;
+      }
+
    }
    else if (selection == CREDITS)
    {
@@ -102,24 +109,30 @@ void loadGame(){
    vector<vector<int>> board(ROWS, vector<int> (COLUMNS));
    LinkedList player1Hand;
    LinkedList player2Hand;
+   LinkedList* tileBag = new LinkedList();
+   tileBag = createBag(tileBag, true);
    Player player1("Player1", 0, player1Hand);
    Player player2("Player2", 0, player2Hand);
    
    //add them to game
-   Game game(player1, player2, board);
+   Game game(player1, player2, board, tileBag);
 
    
 
 
 }
 
-void createList()
+LinkedList* createBag(LinkedList* tileBag, bool gameLoad)
 {
-
+   string inputFile = "ScrabbleTiles.txt";
+   if (gameLoad){
+      cout << "Please enter the filename to load";
+      cin >> inputFile;
+      //call loadGame here
+   }
    ifstream file;
    string line;
-   LinkedList tileBag;
-   file.open("scrabbletiles.txt", ios::in | ios::binary);
+   file.open(inputFile, ios::in | ios::binary);
    // checking if file is open
    if (file.is_open())
    {
@@ -131,74 +144,10 @@ void createList()
          int score = stoi(value);
          char letterChar = letter[0];
          Tile* newTile = new Tile(letterChar, score);
-         
-         tileBag.add(newTile);
-         
-         // Code for testing if values are printed out correctly
-         // cout << "Letter: " << letter << " Value: " << value << endl;
-
-         // LinkedList* tilebag = new LinkedList();
-         // head = NULL;
-         // for (int i = 0; i < 98; i++)
-         // {
-         //    Tile* tile = new Tile(letter, value);
-         //     //head = new Node (letter, value);
-         //    tilebag->add(tile);
-         // }
-      }
-
-      for(int i = 0; i < tileBag.size(); i++){
-         cout << tileBag.get(i)->getLetter();
-         cout << tileBag.get(i)->getValue() << endl;
-      }
-
-
-      // while (!file.eof())
-      // {
-      // }
-
-      // file.close();
+         tileBag->add(newTile);
    }
+   
+   }
+   return tileBag;
 }
-//vector<vector<int>> board(ROWS, vector<int> (COLUMNS)) ;
 
-// void printBoard(){
-
-// cout << "    ";
-//     //printing out column
-//   for(int column = 0; column < COLUMNS; column++){
-//      if(column > 9){
-//         cout << column << " ";
-//      }
-//      else{
-//         cout << column << "  ";
-//      }
-        
-//     }
-
-//         cout << endl;
-//         cout << "------------------------";
-//         cout << "------------------------";
-//         cout << endl;
-
-// char rowTag = CHAR;
-
-// //Printing out rows
-// for (int row = 0; row < ROWS; row++) {
-//         cout << rowTag << "  " << "|";     
-//         rowTag++;
-
-//         for (int column = 0; column < COLUMNS; column++) {
-            
-//             if (board[row][column] == 0) { 
-//                 cout << "  ";
-//             } else {
-//                 cout << board[row][column];  
-//             }
-//             cout << "|"; 
-//         } 
-//         cout << endl; 
-//     }  
-     
-
-//}
