@@ -38,6 +38,7 @@ int Player::startTurn(std::string input){
     }
     else if (input == "Replace"){
         replaceTurn();
+        isTurn = false;
         return 0;
     }
     else if (input == "Place"){

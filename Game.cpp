@@ -63,7 +63,7 @@ void Game::startGame(){
 }
 
 void Game::saveBoard(bool turn){
-    std::ofstream outfile ("test.txt");
+std::ofstream outfile ("test.txt");
 
 outfile << player1->getName() << " " <<  player1->getScore() << endl;
 outfile << player2->getName() << " " << player2->getScore() << endl;
