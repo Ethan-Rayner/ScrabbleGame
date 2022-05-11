@@ -12,11 +12,6 @@ Player::~Player(){
     
 }
 
-//TODO DRAWTILE
-void Player::drawTile(Tile *newTile){
-
-}
-
 void Player::printHand(){
         for(int i = 0; i < playerHand->size(); i++){
          cout << playerHand->get(i)->getLetter();
@@ -44,34 +39,38 @@ void Player::setScore(int score){
     this->score = score;
 }
 
-int Player::startTurn(std::string input){
-    
-    bool isTurn = true;
-    while(isTurn){
-    
-    if (input == "Pass"){
-        return 1;
-    }
-    else if (input == "Replace"){
-        replaceTurn();
-        isTurn = false;
-        return 0;
-    }
-    else if (input == "Place"){
-        placeTurn();
-        return 0;
-    }
-    else if (input == "Save"){
-        return 2; //make this 2 to end game immediately?
-    }
-    else{
-        cout << "--Please enter a valid input--" << endl << endl;
-        cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
-        cin >> input;
-    }
-    }
-    return 0;
-}
+
+//TOGO
+// int Player::startTurn(std::string input){
+//    
+//     string addLetter;
+//
+//     bool isTurn = true;
+//     while(isTurn){
+//  
+//     if (input == "Pass"){
+//         return 1;
+//     }
+//     else if (input == "Replace"){
+//         replaceTurn();
+//         isTurn = false;
+//         return 0;
+//     }
+//     else if (input == "Place"){
+//         addLetter = placeTurn();
+//         return 0;
+//     }
+//     else if (input == "Save"){
+//         return 2; //make this 2 to end game immediately?
+//     }
+//     else{
+//         cout << "--Please enter a valid input--" << endl << endl;
+//         cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
+//         cin >> input;
+//     }
+//     }
+//     return 0;
+// }
 
 
 void Player::replaceTurn(){
@@ -91,19 +90,24 @@ void Player::replaceTurn(){
     }
 }
 
-void Player::placeTurn(){
-    char tile;
+char Player::placeTurn(char tile){
     bool isLetter = true;
     while (isLetter){
         cout << "Please select the tile you want to place" << endl;
         cin >> tile;
-        if(isalpha(tile)){
-            cout << "Placed tile: " << tile << endl;
+        for(int i = 0; i < playerHand->size(); i++){
+        if(tile == playerHand->get(i)->getLetter()){
+            setScore(getScore() + playerHand->get(i)->getValue());
+            playerHand->remove(playerHand->get(i));
             isLetter = false;
+            return tile;
         }
         else{
             cout << "Please enter a valid tile." << endl;
         }
+        }
 
     }
+    tile = '0';
+    return tile;
 }

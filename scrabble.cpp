@@ -42,7 +42,7 @@ int main(void)
    if (selection == NEW_GAME)
    {
       //create new game objects
-      vector<vector<int>> board(ROWS, vector<int> (COLUMNS));
+      vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
       LinkedList player1Hand;
       LinkedList player2Hand;
       LinkedList* tileBag = new LinkedList();
@@ -103,7 +103,7 @@ void loadGame(string filename){
 
    getline(loadFile, line);
    cout << line;
-   vector<vector<int>> board(ROWS, vector<int> (COLUMNS));
+   vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
    LinkedList player1Hand;
    LinkedList player2Hand;
    LinkedList* tileBag = new LinkedList();

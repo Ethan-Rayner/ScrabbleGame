@@ -7,7 +7,7 @@
 #define ROWS         15
 #define CHAR    'A'
 
-Game::Game(Player player1Initial, Player player2Initial, vector<vector<int>> board, LinkedList* tileBag){
+Game::Game(Player player1Initial, Player player2Initial, vector<vector<char>> board, LinkedList* tileBag){
     player1 = new Player(player1Initial);
     player2 = new Player(player2Initial);
     this->board = board;
@@ -51,12 +51,18 @@ void Game::startGame(){
     std::string input;
     while(gameGoing){
     //player one turn
+    drawPlayer(player1);
+
     turnPass = 0;
     cout << player1->getName() << "'s turn" << endl;
     printBoard();
+    cout << "Hand:";
+    for(int i = 0; i < player1->getHand()->size(); i++){
+        cout  <<player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue();
+    }
     cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
     cin >> input;
-    turnPass = player1->startTurn(input);
+    turnPass = getAction(input, player1);
     //checks if player has passed twice in a row
     if (turnPass == 0){
         passCount1 = 0;
@@ -69,12 +75,17 @@ void Game::startGame(){
 
     //player two turn
     if (gameGoing){
+    drawPlayer(player2);
     turnPass = 0;
     cout << player2->getName() << "'s turn" << endl;
     printBoard();
+    cout << "Hand:";
+        for(int i = 0; i < player2->getHand()->size(); i++){
+        cout  << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue();
+    }
     cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
     cin >> input;
-    turnPass = player2->startTurn(input);
+    turnPass = getAction(input, player2);
     //Checks if player has passed twice in a row
     if (turnPass == 0){
         passCount2 = 0;
@@ -89,13 +100,50 @@ void Game::startGame(){
     }
 }
 
-//TODO
-void Game::drawPlayer(Player* player){
-    while (player->getHand()->size() < 7){
-        cout << "Hand < 7";
-        //player->drawTile();
+int Game::getAction(std::string input, Player* player){
+        
+    char addLetter = '0';
+    string location;
+    string column = "0";
+    bool isTurn = true;
+    while(isTurn){
+    
+    if (input == "Pass"){
+        return 1;
     }
+    else if (input == "Replace"){
+        player->replaceTurn();
+        isTurn = false;
+        return 0;
+    }
+    else if (input == "Place"){
+        addLetter = player->placeTurn(addLetter);
+        cout << "Please enter a row and column to place your tile in. (e.g. A1)";
+        cin >> location;
+        column = (location[1]);
+        board[5][stoi(column)] = addLetter;
+        return 0;
+    }
+    else if (input == "Save"){
+        return 2; //make this 2 to end game immediately?
+    }
+    else{
+        cout << "--Please enter a valid input--" << endl << endl;
+        cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
+        cin >> input;
+    }
+    }
+    return 0;
 }
+
+void Game::drawPlayer(Player* player){
+
+    for (int i = 0; player->getHand()->size() < 7; i++){
+        Tile* newTile = bag->get(i);
+        player->getHand()->add(newTile);
+        bag->remove(newTile);
+        }
+    }
 
 void Game::saveBoard(bool turn){
 string fileName;
@@ -156,7 +204,7 @@ for (int row = 0; row < ROWS; row++) {
             if (board[row][column] == 0) { 
                 cout << "  ";
             } else {
-                cout << board[row][column];  
+                cout << board[row][column] << " ";  
             }
             cout << "|"; 
         } 
