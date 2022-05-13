@@ -58,18 +58,21 @@ void Game::startGame(){
     printBoard();
     cout << "Hand:";
     for(int i = 0; i < player1->getHand()->size(); i++){
-        cout  <<player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue();
+        cout << " " << player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue() << ",";
     }
-    cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
+    cout << endl << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
     cin >> input;
     turnPass = getAction(input, player1);
     //checks if player has passed twice in a row
+    if(turnPass == 2){
+        saveBoard(false);
+        break;
+    }
     if (turnPass == 0){
         passCount1 = 0;
     }
     passCount1 += turnPass;
     if (passCount1 == 2){
-        saveBoard(false);
         break;
         }
 
@@ -81,11 +84,15 @@ void Game::startGame(){
     printBoard();
     cout << "Hand:";
         for(int i = 0; i < player2->getHand()->size(); i++){
-        cout  << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue();
+        cout  << " " << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue();
     }
-    cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
+    cout << endl << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
     cin >> input;
     turnPass = getAction(input, player2);
+    if(turnPass == 2){
+        saveBoard(true);
+        break;
+    }
     //Checks if player has passed twice in a row
     if (turnPass == 0){
         passCount2 = 0;
@@ -93,7 +100,6 @@ void Game::startGame(){
     passCount2 += turnPass;
     if (passCount2 == 2)
     {break;
-    saveBoard(true);
     }
     }
     
@@ -104,7 +110,10 @@ int Game::getAction(std::string input, Player* player){
         
     char addLetter = '0';
     string location;
+    string isDone = "";
     string column = "0";
+    int row =0;
+    const int asciiConversion = 65;
     bool isTurn = true;
     while(isTurn){
     
@@ -117,19 +126,22 @@ int Game::getAction(std::string input, Player* player){
         return 0;
     }
     else if (input == "Place"){
+        while(isDone != "Done"){
         addLetter = player->placeTurn(addLetter);
-        cout << "Please enter a row and column to place your tile in. (e.g. A1)";
+        cout << "Please enter a row and column to place your tile in. (e.g. A1)" << endl << "> ";
         cin >> location;
         column = (location[1]);
-        board[5][stoi(column)] = addLetter;
+        row = int(location[0]) - asciiConversion;
+        board[row][stoi(column)] = addLetter;
         return 0;
+        }
     }
     else if (input == "Save"){
         return 2; //make this 2 to end game immediately?
     }
     else{
         cout << "--Please enter a valid input--" << endl << endl;
-        cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
+        cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
         cin >> input;
     }
     }

@@ -123,9 +123,8 @@ LinkedList* createBag(LinkedList* tileBag, bool gameLoad)
 {
    string inputFile = "ScrabbleTiles.txt";
    if (gameLoad){
-      cout << "Please enter the filename to load";
+      cout << "Please enter the filename to load" << endl << "> ";
       cin >> inputFile;
-      cout << "here";
       //loadGame(inputFile);
       //call loadGame here
    }

@@ -77,7 +77,7 @@ void Player::replaceTurn(){
     char tile;
     bool isLetter = true;
     while (isLetter){
-        cout << "Please select the tile you want to replace" << endl;
+        cout << "Please select the tile you want to replace" << endl << "> ";
         cin >> tile;
         if(isalpha(tile)){
             cout << "Replaced tile: " << tile << endl;
@@ -93,7 +93,7 @@ void Player::replaceTurn(){
 char Player::placeTurn(char tile){
     bool isLetter = true;
     while (isLetter){
-        cout << "Please select the tile you want to place" << endl;
+        cout << "Please select the tile you want to place" << endl << "> ";
         cin >> tile;
         for(int i = 0; i < playerHand->size(); i++){
         if(tile == playerHand->get(i)->getLetter()){
@@ -102,11 +102,8 @@ char Player::placeTurn(char tile){
             isLetter = false;
             return tile;
         }
-        else{
-            cout << "Please enter a valid tile." << endl;
         }
-        }
-
+    cout << "Please enter a valid tile." << endl;
     }
     tile = '0';
     return tile;
