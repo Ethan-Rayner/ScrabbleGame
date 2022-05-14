@@ -134,7 +134,9 @@ int Game::getAction(std::string input, Player* player){
         else if (input == "Place"){
             returnStatement = 0;
             //validation
-            while((isPlacing)){
+            while((player->getHand()->size() > 0 && isPlacing)){
+                inputPlace = "";
+                selectPlace = true;
                 cout << "Please select the tile you want to place (e.g. 'A') or type 'Done' to end your turn." << endl;
                 cout << "Hand:";
                 for(int i = 0; i < player->getHand()->size(); i++){
@@ -191,6 +193,11 @@ int Game::getAction(std::string input, Player* player){
                     cout << "-- Please select a valid tile. --" << endl;
                 }
             }
+            if (player->getHand()->size() == 0){
+            cout << player->getName() << " BINGO";
+            player->setScore(player->getScore() + 50);
+            }
+            isTurn = false;
         }
         else if (input == "Save"){
             returnStatement = 2; //make this 2 to end game immediately?
