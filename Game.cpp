@@ -202,8 +202,8 @@ int Game::getAction(std::string input, Player* player){
                 isPlacing = placeTile(player);
             }
             if (player->getHand()->size() == 0){
-            cout << player->getName() << " BINGO";
-            player->setScore(player->getScore() + 50);
+                cout << player->getName() << " BINGO";
+                player->setScore(player->getScore() + 50);
             }
             isTurn = false;
         }
