@@ -40,7 +40,7 @@ void Player::setScore(int score){
 }
 
 
-//TOGO
+//TODO
 // int Player::startTurn(std::string input){
 //    
 //     string addLetter;

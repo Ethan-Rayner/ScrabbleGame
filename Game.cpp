@@ -117,22 +117,22 @@ int Game::getAction(std::string input, Player* player){
     int row =0;
     const int asciiConversion = 65;
     bool isTurn = true;
-    int returnStatement = 0;
+    int passValue = 0;
 
     while(isTurn){
     
         if (input == "Pass"){
-            returnStatement = 1;
+            passValue = 1;
             break;
         }
         else if (input == "Replace"){
             player->replaceTurn();
             isTurn = false;
-            returnStatement = 0;
+            passValue = 0;
             break;
         }
         else if (input == "Place"){
-            returnStatement = 0;
+            passValue = 0;
             //validation
             while((player->getHand()->size() > 0 && isPlacing)){
                 inputPlace = "";
@@ -200,7 +200,7 @@ int Game::getAction(std::string input, Player* player){
             isTurn = false;
         }
         else if (input == "Save"){
-            returnStatement = 2; //make this 2 to end game immediately?
+            passValue = 2; //make this 2 to end game immediately?
             isTurn = false;
         }
         else{
@@ -209,7 +209,7 @@ int Game::getAction(std::string input, Player* player){
             cin >> input;
         }
         }
-    return returnStatement;
+    return passValue;
 }
 
 void Game::drawPlayer(Player* player){
