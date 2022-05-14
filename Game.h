@@ -17,6 +17,7 @@ public:
     bool takeTurn(Player* player);
     void drawPlayer(Player* player);
     int getAction(std::string input, Player* player);
+    bool placeTile(Player* player);
 
 
 private:

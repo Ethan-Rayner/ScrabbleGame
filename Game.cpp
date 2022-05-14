@@ -12,7 +12,6 @@ Game::Game(Player player1Initial, Player player2Initial, vector<vector<char>> bo
     player2 = new Player(player2Initial);
     this->board = board;
     bag = tileBag;
-    //drawPlayer(); //TODO make players draw up to 7 tiles
 
 }
 
@@ -106,8 +105,7 @@ void Game::startGame(){
     }
 }
 
-int Game::getAction(std::string input, Player* player){
-        
+bool Game::placeTile(Player* player){
     char addLetter = '0';
     string location;
     string inputPlace = "";
@@ -116,6 +114,72 @@ int Game::getAction(std::string input, Player* player){
     bool selectPlace = true;
     int row =0;
     const int asciiConversion = 65;
+
+    //Function 
+    selectPlace = true;
+    cout << "Please select the tile you want to place (e.g. 'A') or type 'Done' to end your turn." << endl;
+    cout << "Hand:";
+    for(int i = 0; i < player->getHand()->size(); i++){
+        cout  << " " << player->getHand()->get(i)->getLetter() << "-" << player->getHand()->get(i)->getValue();
+    }
+    cout << endl << "> ";
+    cin >> inputPlace;
+    if (inputPlace == "Done"){
+        isPlacing = false;
+    }
+    else if (inputPlace.length() == 1){
+        addLetter = inputPlace[0];
+        addLetter = player->placeTurn(addLetter);
+        if (addLetter == 0){
+            cout << "Please select a letter from your hand.";
+        }
+        else{
+            while(selectPlace){
+            cout << "Please enter a row and column to place your tile in. (e.g. A1)" << endl << "> ";
+            cin >> location;
+                if ((isdigit(location[1])) && (isalpha(location[0])) && ((location.length() == 2))){
+                    
+                    column = (location[1]);
+                    row = int(location[0]) - asciiConversion;
+                    if(row <= 15 && stoi(column) <= 15){
+                        board[row][stoi(column)] = addLetter;
+                        cout << "Placing " << addLetter << " at " << location << endl;
+                        selectPlace = false;
+                    }
+                    else{
+                        cout << "Please enter a valid input." << endl;
+                    }
+                }
+                else if((isdigit(location[1])) && (isdigit(location[2])) && (isalpha(location[0])) && ((location.length() == 3))){
+                    column = (location.substr(1, -1));
+                    row = int(location[0]) - asciiConversion;
+                    if(row < 15 && stoi(column) < 15){
+                        board[row][stoi(column)] = addLetter;
+                        cout << "Placing " << addLetter << " at " << location << endl;
+                        selectPlace = false;
+                        printBoard();
+                    }
+                    else{
+                        cout << "Please enter a valid input." << endl;
+                    }
+                }
+                else{
+                    cout << "Please enter a valid input." << endl;
+                }
+                }
+            }
+    }
+    else{
+        cout << "-- Please select a valid tile. --" << endl;
+    }
+    return isPlacing;
+}
+
+int Game::getAction(std::string input, Player* player){
+        
+    bool isPlacing = true;
+    //bool selectPlace = true;
+
     bool isTurn = true;
     int passValue = 0;
 
@@ -135,63 +199,7 @@ int Game::getAction(std::string input, Player* player){
             passValue = 0;
             //validation
             while((player->getHand()->size() > 0 && isPlacing)){
-                inputPlace = "";
-                selectPlace = true;
-                cout << "Please select the tile you want to place (e.g. 'A') or type 'Done' to end your turn." << endl;
-                cout << "Hand:";
-                for(int i = 0; i < player->getHand()->size(); i++){
-                    cout  << " " << player->getHand()->get(i)->getLetter() << "-" << player->getHand()->get(i)->getValue();
-                }
-                cout << endl << "> ";
-                cin >> inputPlace;
-                if (inputPlace == "Done"){
-                    isTurn = false;
-                    isPlacing = false;
-                }
-                else if (inputPlace.length() == 1){
-                    addLetter = inputPlace[0];
-                    addLetter = player->placeTurn(addLetter);
-                    if (addLetter == 0){
-                        cout << "Please select a letter from your hand.";
-                    }
-                    else{
-                        while(selectPlace){
-                        cout << "Please enter a row and column to place your tile in. (e.g. A1)" << endl << "> ";
-                        cin >> location;
-                            if ((isdigit(location[1])) && (isalpha(location[0])) && ((location.length() == 2))){
-                                
-                                column = (location[1]);
-                                row = int(location[0]) - asciiConversion;
-                                if(row <= 15 && stoi(column) <= 15){
-                                    board[row][stoi(column)] = addLetter;
-                                    cout << "Placing " << addLetter << " at " << location << endl;
-                                    selectPlace = false;
-                                }
-                                else{
-                                    cout << "Please enter a valid input." << endl;
-                                }
-                            }
-                            else if((isdigit(location[1])) && (isdigit(location[2])) && (isalpha(location[0])) && ((location.length() == 3))){
-                                column = (location.substr(1, -1));
-                                row = int(location[0]) - asciiConversion;
-                                if(row <= 15 && stoi(column) <= 15){
-                                    board[row][stoi(column)] = addLetter;
-                                    cout << "Placing " << addLetter << " at " << location << endl;
-                                    selectPlace = false;
-                                }
-                                else{
-                                    cout << "Please enter a valid input." << endl;
-                                }
-                            }
-                            else{
-                                cout << "Please enter a valid input." << endl;
-                            }
-                            }
-                        }
-                }
-                else{
-                    cout << "-- Please select a valid tile. --" << endl;
-                }
+                isPlacing = placeTile(player);
             }
             if (player->getHand()->size() == 0){
             cout << player->getName() << " BINGO";
