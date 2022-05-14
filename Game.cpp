@@ -83,7 +83,7 @@ void Game::startGame(){
     cout << player2->getName() << "'s turn" << endl;
     printBoard();
     cout << "Hand:";
-        for(int i = 0; i < player2->getHand()->size(); i++){
+    for(int i = 0; i < player2->getHand()->size(); i++){
         cout  << " " << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue();
     }
     cout << endl << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
@@ -110,42 +110,99 @@ int Game::getAction(std::string input, Player* player){
         
     char addLetter = '0';
     string location;
-    string isDone = "";
+    string inputPlace = "";
     string column = "0";
+    bool isPlacing = true;
+    bool selectPlace = true;
     int row =0;
     const int asciiConversion = 65;
     bool isTurn = true;
+    int returnStatement = 0;
+
     while(isTurn){
     
-    if (input == "Pass"){
-        return 1;
-    }
-    else if (input == "Replace"){
-        player->replaceTurn();
-        isTurn = false;
-        return 0;
-    }
-    else if (input == "Place"){
-        while(isDone != "Done"){
-        addLetter = player->placeTurn(addLetter);
-        cout << "Please enter a row and column to place your tile in. (e.g. A1)" << endl << "> ";
-        cin >> location;
-        column = (location[1]);
-        row = int(location[0]) - asciiConversion;
-        board[row][stoi(column)] = addLetter;
-        return 0;
+        if (input == "Pass"){
+            returnStatement = 1;
+            break;
         }
-    }
-    else if (input == "Save"){
-        return 2; //make this 2 to end game immediately?
-    }
-    else{
-        cout << "--Please enter a valid input--" << endl << endl;
-        cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
-        cin >> input;
-    }
-    }
-    return 0;
+        else if (input == "Replace"){
+            player->replaceTurn();
+            isTurn = false;
+            returnStatement = 0;
+            break;
+        }
+        else if (input == "Place"){
+            returnStatement = 0;
+            //validation
+            while((isPlacing)){
+                cout << "Please select the tile you want to place (e.g. 'A') or type 'Done' to end your turn." << endl;
+                cout << "Hand:";
+                for(int i = 0; i < player->getHand()->size(); i++){
+                    cout  << " " << player->getHand()->get(i)->getLetter() << "-" << player->getHand()->get(i)->getValue();
+                }
+                cout << endl << "> ";
+                cin >> inputPlace;
+                if (inputPlace == "Done"){
+                    isTurn = false;
+                    isPlacing = false;
+                }
+                else if (inputPlace.length() == 1){
+                    addLetter = inputPlace[0];
+                    addLetter = player->placeTurn(addLetter);
+                    if (addLetter == 0){
+                        cout << "Please select a letter from your hand.";
+                    }
+                    else{
+                        while(selectPlace){
+                        cout << "Please enter a row and column to place your tile in. (e.g. A1)" << endl << "> ";
+                        cin >> location;
+                            if ((isdigit(location[1])) && (isalpha(location[0])) && ((location.length() == 2))){
+                                
+                                column = (location[1]);
+                                row = int(location[0]) - asciiConversion;
+                                if(row <= 15 && stoi(column) <= 15){
+                                    board[row][stoi(column)] = addLetter;
+                                    cout << "Placing " << addLetter << " at " << location << endl;
+                                    selectPlace = false;
+                                }
+                                else{
+                                    cout << "Please enter a valid input." << endl;
+                                }
+                            }
+                            else if((isdigit(location[1])) && (isdigit(location[2])) && (isalpha(location[0])) && ((location.length() == 3))){
+                                column = (location.substr(1, -1));
+                                row = int(location[0]) - asciiConversion;
+                                if(row <= 15 && stoi(column) <= 15){
+                                    board[row][stoi(column)] = addLetter;
+                                    cout << "Placing " << addLetter << " at " << location << endl;
+                                    selectPlace = false;
+                                }
+                                else{
+                                    cout << "Please enter a valid input." << endl;
+                                }
+                            }
+                            else{
+                                cout << "Please enter a valid input." << endl;
+                            }
+                            }
+                        }
+                }
+                else{
+                    cout << "-- Please select a valid tile. --" << endl;
+                }
+            }
+        }
+        else if (input == "Save"){
+            returnStatement = 2; //make this 2 to end game immediately?
+            isTurn = false;
+        }
+        else{
+            cout << "--Please enter a valid input--" << endl << endl;
+            cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
+            cin >> input;
+        }
+        }
+    return returnStatement;
 }
 
 void Game::drawPlayer(Player* player){
@@ -173,10 +230,15 @@ char rowTag = CHAR;
 //Printing out rows
 for (int row = 0; row < ROWS; row++) {
         rowTag++;
-
+// TODO fix formatting 
         for (int column = 0; column < COLUMNS; column++) {
+            if (!(isalpha(board[row][column]))){
+                outfile << 0;
+            }
+            else{
                 outfile << board[row][column]; 
         } 
+        }
         outfile << endl; 
     }  
 

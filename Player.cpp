@@ -92,19 +92,18 @@ void Player::replaceTurn(){
 
 char Player::placeTurn(char tile){
     bool isLetter = true;
-    while (isLetter){
-        cout << "Please select the tile you want to place" << endl << "> ";
-        cin >> tile;
-        for(int i = 0; i < playerHand->size(); i++){
-        if(tile == playerHand->get(i)->getLetter()){
-            setScore(getScore() + playerHand->get(i)->getValue());
-            playerHand->remove(playerHand->get(i));
-            isLetter = false;
-            return tile;
-        }
-        }
-    cout << "Please enter a valid tile." << endl;
+
+    for(int i = 0; i < playerHand->size(); i++){
+    if(tile == playerHand->get(i)->getLetter()){
+        setScore(getScore() + playerHand->get(i)->getValue());
+        playerHand->remove(playerHand->get(i));
+        isLetter = false;
+        break;
     }
-    tile = '0';
+    }
+    if (isLetter){
+        tile = 0;
+    }
     return tile;
-}
+    }
+
