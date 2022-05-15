@@ -50,58 +50,72 @@ void Game::startGame(){
     std::string input;
     while(gameGoing){
     //player one turn
-    drawPlayer(player1);
+        drawPlayer(player1);
 
-    turnPass = 0;
-    cout << player1->getName() << "'s turn" << endl;
-    printBoard();
-    cout << "Hand:";
-    for(int i = 0; i < player1->getHand()->size(); i++){
-        cout << " " << player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue() << ",";
-    }
-    cout << endl << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
-    cin >> input;
-    turnPass = getAction(input, player1);
-    //checks if player has passed twice in a row
-    if(turnPass == 2){
-        saveBoard(false);
-        break;
-    }
-    if (turnPass == 0){
-        passCount1 = 0;
-    }
-    passCount1 += turnPass;
-    if (passCount1 == 2){
-        break;
+        turnPass = 0;
+        cout << player1->getName() << "'s turn" << endl;
+        printBoard();
+        cout << "Hand:";
+
+        for(int i = 0; i < player1->getHand()->size(); i++){
+            cout << " " << player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue() << ",";
         }
+        
+        cout << endl << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
+        cin >> input;
+        turnPass = getAction(input, player1);
 
-    //player two turn
-    if (gameGoing){
-    drawPlayer(player2);
-    turnPass = 0;
-    cout << player2->getName() << "'s turn" << endl;
-    printBoard();
-    cout << "Hand:";
-    for(int i = 0; i < player2->getHand()->size(); i++){
-        cout  << " " << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue();
+        //checks if player has passed twice in a row, saved or placed/replaced.
+        //Save
+        if(turnPass == 2){
+            saveBoard(false);
+            break;
+        }
+        // Place/Replace
+        if (turnPass == 0){
+            passCount1 = 0;
+        }
+        // Pass
+        passCount1 += turnPass;
+        if (passCount1 == 2){
+            break;
+            }
+
+        //player two turn
+        if (gameGoing){
+            drawPlayer(player2);
+            turnPass = 0;
+            cout << player2->getName() << "'s turn" << endl;
+            printBoard();
+            cout << "Hand:";
+            
+            for(int i = 0; i < player2->getHand()->size(); i++){
+                cout  << " " << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue();
+            }
+            
+            cout << endl << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
+            cin >> input;
+            turnPass = getAction(input, player2);
+            
+            if(turnPass == 2){
+                saveBoard(true);
+                break;
+            }
+            //checks if player has passed twice in a row, saved or placed/replaced.
+            if (turnPass == 0){
+                passCount2 = 0;
+            }
+            passCount2 += turnPass;
+            if (passCount2 == 2){
+                break;
+            }
+        }
     }
-    cout << endl << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
-    cin >> input;
-    turnPass = getAction(input, player2);
-    if(turnPass == 2){
-        saveBoard(true);
-        break;
+    if (player1->getScore() > player2->getScore()){
+        cout << player1->getName() << " wins!" << endl;
     }
-    //Checks if player has passed twice in a row
-    if (turnPass == 0){
-        passCount2 = 0;
-    }
-    passCount2 += turnPass;
-    if (passCount2 == 2)
-    {break;
-    }
-    }
-    
+    else{
+        cout << player2->getName() << " wins!" << endl;
     }
 }
 
