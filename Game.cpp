@@ -69,6 +69,11 @@ void Game::startGame(){
             saveBoard("tester.txt");
             cout << "Game saved succesfully" << endl;
         }
+
+        if(turnPass == -1){
+                break;
+            }
+
         // Place/Replace
         if (turnPass == 0){
             passCount1 = 0;
@@ -93,6 +98,11 @@ void Game::startGame(){
                 saveBoard("tester.txt");
                 cout << "Game saved succesfully" << endl;
             }
+
+            if(turnPass == -1){
+                break;
+            }
+
             //checks if player has passed twice in a row, saved or placed/replaced.
             if (turnPass == 0){
                 passCount2 = 0;
@@ -109,7 +119,7 @@ void Game::startGame(){
 // Score for <player 2 name>: 000
 // Player <winniner player name> won!
 // Goodbye
-    if(turnPass != 3){
+    if(passCount1 == 2 || passCount2 == 2){
         if ((player1->getScore() > player2->getScore())){
             printPostGame(player1);
         }
@@ -171,6 +181,10 @@ int Game::getAction(Player* player){
             }
             cout << endl <<"> ";
             getline(cin, command);
+            if(!cin){
+                passValue = -1;
+                break;
+            }
             stringstream commandStream(command);
             commandStream >> firstWord;
 
