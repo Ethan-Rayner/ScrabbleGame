@@ -2,6 +2,9 @@
 #include "Game.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
+
+
 #define EXIT_SUCCESS 0
 #define COLUMNS      15
 #define ROWS         15
@@ -47,28 +50,24 @@ void Game::startGame(){
     int turnPass;
     int passCount1 = 0;
     int passCount2 = 0;
-    std::string input;
+    cin.ignore(1, '\n');
+
     while(gameGoing){
     //player one turn
         drawPlayer(player1);
+        drawPlayer(player2);
 
         turnPass = 0;
-        cout << player1->getName() << "'s turn" << endl;
         printBoard();
+        cout << player1->getName() << "'s turn" << endl;
         cout << "Hand:";
-
-        for(int i = 0; i < player1->getHand()->size(); i++){
-            cout << " " << player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue() << ",";
-        }
-        
-        cout << endl << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
-        cin >> input;
-        turnPass = getAction(input, player1);
+        printHand(player1);
+        turnPass = getAction(player1);
 
         //checks if player has passed twice in a row, saved or placed/replaced.
         //Save
-        if(turnPass == 2){
-            saveBoard(false);
+        if(turnPass == 3){
+            saveBoard("tester.txt");
             break;
         }
         // Place/Replace
@@ -83,22 +82,15 @@ void Game::startGame(){
 
         //player two turn
         if (gameGoing){
-            drawPlayer(player2);
             turnPass = 0;
-            cout << player2->getName() << "'s turn" << endl;
             printBoard();
+            cout << player2->getName() << "'s turn" << endl;
             cout << "Hand:";
             
-            for(int i = 0; i < player2->getHand()->size(); i++){
-                cout  << " " << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue();
-            }
+            printHand(player2);
+            turnPass = getAction(player2);
             
-            cout << endl << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
-            cin >> input;
-            turnPass = getAction(input, player2);
-            
-            if(turnPass == 2){
-                saveBoard(true);
+            if(turnPass == 3){
                 break;
             }
             //checks if player has passed twice in a row, saved or placed/replaced.
@@ -111,126 +103,163 @@ void Game::startGame(){
             }
         }
     }
-    if (player1->getScore() > player2->getScore()){
-        cout << player1->getName() << " wins!" << endl;
-    }
-    else{
-        cout << player2->getName() << " wins!" << endl;
+
+//     Game over
+// Score for <player 1 name>: 000
+// Score for <player 2 name>: 000
+// Player <winniner player name> won!
+// Goodbye
+    if(turnPass != 3){
+        if ((player1->getScore() > player2->getScore())){
+            printPostGame(player1);
+        }
+        else{
+            printPostGame(player2);
+        }
     }
 }
 
-bool Game::placeTile(Player* player){
-    char addLetter = '0';
-    string location;
-    string inputPlace = "";
-    string column = "0";
-    bool isPlacing = true;
-    bool selectPlace = true;
-    int row =0;
-    const int asciiConversion = 65;
+void Game::printPostGame(Player* player){
+cout << "Game Over" << endl << "Score for " << player1->getName() << ": "<< player1->getScore() << endl << "Score for " << player2->getName() << ": " << player2->getScore() << endl;
+cout << player->getName() << " won!" << endl << "Goodbye" << endl;
+}
 
-    //Function 
-    selectPlace = true;
-    cout << "Please select the tile you want to place (e.g. 'A') or type 'Done' to end your turn." << endl;
-    cout << "Hand:";
+bool Game::replaceTile(Player* player, char letter){
+
+//TODO make this random
+
     for(int i = 0; i < player->getHand()->size(); i++){
-        cout  << " " << player->getHand()->get(i)->getLetter() << "-" << player->getHand()->get(i)->getValue();
-    }
-    cout << endl << "> ";
-    cin >> inputPlace;
-    if (inputPlace == "Done"){
-        isPlacing = false;
-    }
-    else if (inputPlace.length() == 1){
-        addLetter = inputPlace[0];
-        addLetter = player->placeTurn(addLetter);
-        if (addLetter == 0){
-            cout << "Please select a letter from your hand.";
+        if(player->getHand()->get(i)->getLetter() == letter){
+            Tile* newTile = player->getHand()->get(i);
+            player->getHand()->remove(newTile);
+            bag->add(newTile);
+            break;
         }
-        else{
-            while(selectPlace){
-            cout << "Please enter a row and column to place your tile in. (e.g. A1)" << endl << "> ";
-            cin >> location;
-                if ((isdigit(location[1])) && (isalpha(location[0])) && ((location.length() == 2))){
-                    
-                    column = (location[1]);
-                    row = int(location[0]) - asciiConversion;
-                    if(row <= 15 && stoi(column) <= 15){
-                        board[row][stoi(column)] = addLetter;
-                        cout << "Placing " << addLetter << " at " << location << endl;
-                        selectPlace = false;
+    }
+
+    return false;
+}
+
+
+void Game::printHand(Player* player){
+            for(int i = 0; i < player->getHand()->size(); i++){
+                cout  << " " << player->getHand()->get(i)->getLetter() << "-" << player->getHand()->get(i)->getValue();
+            }
+}
+
+int Game::getAction(Player* player){
+        string command;
+        string firstWord; //action
+        string secondWord; //instruction
+        
+        string thirdWord; //at
+        string fourthWord; //row&col
+
+        // int placedRow; //store the row the player is currently placing in
+        // int placedcol; //store the col the player is currently placing in
+        // bool rowPriority = false; // designate the row as the priority
+        // bool colPriority = false;
+
+        bool isValid = true;
+        int passValue =0;
+        //TODO (nextWord[0] <= 'O' && nextWord[0] >= 'A') = between O and A
+        //Get action
+        while(true){
+            //check if entered command is a valid command
+            if(!isValid){
+                cout << "Invalid input, please try again."<< endl;
+            }
+            cout << endl <<"> ";
+            getline(cin, command);
+            stringstream commandStream(command);
+            commandStream >> firstWord;
+
+            if (firstWord == "replace"){
+                    //check next "word" is a letter and not the same command as before
+                    commandStream >> secondWord;
+                    //checking != replace, is 1 character long, is a letter
+                    if(bag->size() <= 7){
+                        if ((!(secondWord == firstWord)) && (secondWord.length() == 1) && (secondWord[0] <= 'Z' && secondWord[0] >= 'A')){
+                            replaceTile(player, secondWord[0]);
+                            printHand(player);
+                            break;
+                            }
+                            else{
+                                isValid = false;
+                            }
                     }
                     else{
-                        cout << "Please enter a valid input." << endl;
+                        cout << "There arent enough tiles in the bag";
                     }
+            }
+            else if (firstWord == "pass"){
+                passValue = 1;
+                break;
+            }
+            else if (firstWord == "place"){
+                    //check next "word" is a letter and not the same command as before
+                    commandStream >> secondWord;
+                    //checking != replace, is 1 character long, is a letter
+                    if ((!(secondWord == firstWord)) && (secondWord.length() == 1) && (secondWord[0] <= 'Z' && secondWord[0] >= 'A')){
+                        commandStream >> thirdWord;
+                        char letter = secondWord[0];
+                        if ((!(secondWord == thirdWord)) && (thirdWord== "at")){
+                            
+                            commandStream >> fourthWord;
+                            if ((!(thirdWord == fourthWord)) && (fourthWord.length() == 2) && (fourthWord[0] <= 'Z' && fourthWord[0] >= 'A') && (isdigit(fourthWord[1]))){
+                                int row =  fourthWord[0] - 'A';
+                                int col =  int(fourthWord[1]) - '0';
+                                    for(int i = 0; i < player->getHand()->size(); i++)
+                                        if (player->getHand()->get(i)->getLetter() == letter){
+                                        board[row][col] = letter;
+                                        player->setScore(player->getScore() + player->getHand()->get(i)->getValue());
+                                        player->getHand()->remove(player->getHand()->get(i));
+                                        printHand(player);
+                                        isValid = true;
+                                        break;
+                                    }
+                                    else{
+                                            isValid = false;
+                                    }
+                                    
+                            }
+                            else{
+                                isValid = false;
+                            }
+
+                            if (player->getHand()->size() == 0 && isValid){
+                                        cout << "BINGO";
+                                        player->setScore(player->getScore() + 50);
+                                    }
+                        }
+                        else{
+                            isValid = false;
+                        }
                 }
-                else if((isdigit(location[1])) && (isdigit(location[2])) && (isalpha(location[0])) && ((location.length() == 3))){
-                    column = (location.substr(1, -1));
-                    row = int(location[0]) - asciiConversion;
-                    if(row < 15 && stoi(column) < 15){
-                        board[row][stoi(column)] = addLetter;
-                        cout << "Placing " << addLetter << " at " << location << endl;
-                        selectPlace = false;
-                        printBoard();
-                    }
-                    else{
-                        cout << "Please enter a valid input." << endl;
-                    }
+                else if((!(secondWord == firstWord)) && (secondWord == "Done")){
+                    break;
+                }
+
+                else{
+                    isValid = false;
+                }
+            }
+            else if(firstWord == "save"){
+                passValue = 3;
+                commandStream >> secondWord;
+                if (!(secondWord == firstWord)){
+                saveBoard(secondWord);
+                break;
                 }
                 else{
-                    cout << "Please enter a valid input." << endl;
-                }
+                    isValid = false;
                 }
             }
-    }
-    else{
-        cout << "-- Please select a valid tile. --" << endl;
-    }
-    return isPlacing;
-}
-
-int Game::getAction(std::string input, Player* player){
+            else{
+                    isValid = false;
+                }
         
-    bool isPlacing = true;
-    //bool selectPlace = true;
-
-    bool isTurn = true;
-    int passValue = 0;
-
-    while(isTurn){
-    
-        if (input == "Pass"){
-            passValue = 1;
-            break;
-        }
-        else if (input == "Replace"){
-            player->replaceTurn();
-            isTurn = false;
-            passValue = 0;
-            break;
-        }
-        else if (input == "Place"){
-            passValue = 0;
-            //validation
-            while((player->getHand()->size() > 0 && isPlacing)){
-                isPlacing = placeTile(player);
-            }
-            if (player->getHand()->size() == 0){
-                cout << player->getName() << " BINGO";
-                player->setScore(player->getScore() + 50);
-            }
-            isTurn = false;
-        }
-        else if (input == "Save"){
-            passValue = 2; //make this 2 to end game immediately?
-            isTurn = false;
-        }
-        else{
-            cout << "--Please enter a valid input--" << endl << endl;
-            cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl << "> ";
-            cin >> input;
-        }
-        }
+    }
     return passValue;
 }
 
@@ -243,71 +272,91 @@ void Game::drawPlayer(Player* player){
         }
     }
 
-void Game::saveBoard(bool turn){
-string fileName;
-cout << "Where would you like to save?";
-cin >> fileName;
+void Game::saveBoard(string fileName){
 
-std::ofstream outfile (fileName);
-
-outfile << player1->getName() << " " <<  player1->getScore() << endl;
-outfile << player2->getName() << " " << player2->getScore() << endl;
+std::ofstream outfile(fileName);
+//p1 hand
+outfile << player1->getName() << endl << player1->getScore() << endl;
+for(int i =0; i< player1->getHand()->size(); i++){
+    outfile << player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue() << " ";
+}
+//p2 hand
+outfile << endl <<  player2->getName() << endl << player2->getScore() << endl;
+for(int i =0; i< player2->getHand()->size(); i++){
+    outfile << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue() << " ";
+}
     //printing out column
-        
+outfile << endl;
 char rowTag = CHAR;
 
 //Printing out rows
-for (int row = 0; row < ROWS; row++) {
-        rowTag++;
-// TODO fix formatting 
-        for (int column = 0; column < COLUMNS; column++) {
-            if (!(isalpha(board[row][column]))){
-                outfile << 0;
-            }
-            else{
-                outfile << board[row][column]; 
-        } 
-        }
-        outfile << endl; 
-    }  
-
-    outfile.close();
-}
-
-void Game::printBoard(){
-
-cout << player1->getName() << " score: " << player1->getScore() << endl;
-cout << player2->getName() << " score: " << player2->getScore() << endl << endl;
-cout << "    ";
-    //printing out column
   for(int column = 0; column < COLUMNS; column++){
      if(column > 9){
-        cout << column << " ";
+        outfile << column << "  " ;
      }
      else{
-        cout << column << "  ";
+        outfile << column << "   " ;
      }
         
     }
 
-        cout << endl;
-        cout << "------------------------";
-        cout << "------------------------";
-        cout << endl;
-
-char rowTag = CHAR;
+        outfile << endl;
+        outfile << "-----------------------------------------------------------------";
+        outfile << endl;
 
 //Printing out rows
 for (int row = 0; row < ROWS; row++) {
-        cout << rowTag << "  " << "|";     
+        outfile << rowTag << "   " << "|";     
         rowTag++;
 
         for (int column = 0; column < COLUMNS; column++) {
             
             if (board[row][column] == 0) { 
-                cout << "  ";
+                outfile <<" " << 0 << " ";
             } else {
-                cout << board[row][column] << " ";  
+                outfile << " " << board[row][column] << " ";  
+            }
+            outfile << "|"; 
+        } 
+        outfile << endl; 
+    }
+}
+
+
+
+void Game::printBoard(){
+
+cout << player1->getName() << " score: " << player1->getScore() << endl;
+cout << player2->getName() << " score: " << player2->getScore() << endl << endl;
+cout << "      ";
+    //printing out column
+  for(int column = 0; column < COLUMNS; column++){
+     if(column > 9){
+        cout << column << "  " ;
+     }
+     else{
+        cout << column << "   " ;
+     }
+        
+    }
+
+        cout << endl;
+        cout << "-----------------------------------------------------------------";
+        cout << endl;
+
+char rowTag = CHAR;
+
+//Printing out rows
+for (int row = 0; row < ROWS; row++) {
+        cout << rowTag << "   " << "|";     
+        rowTag++;
+
+        for (int column = 0; column < COLUMNS; column++) {
+            
+            if (board[row][column] == 0) { 
+                cout << "   ";
+            } else {
+                cout << " " << board[row][column] << " ";  
             }
             cout << "|"; 
         } 

@@ -3,7 +3,7 @@
 #include "Game.h"
 #include <iostream>
 #include <vector>
-
+#include <sstream>
 
 #define EXIT_SUCCESS 0
 #define COLUMNS      15
@@ -41,7 +41,7 @@ int main(void)
    // Menu selection
    if (selection == NEW_GAME)
    {
-      //create new game objects
+      
       vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
       LinkedList player1Hand;
       LinkedList player2Hand;
@@ -49,10 +49,14 @@ int main(void)
       tileBag = createBag(tileBag, false);
       Player player1("Player1", 0, player1Hand);
       Player player2("Player2", 0, player2Hand);
+      
       //add them to game
       Game game(player1, player2, board, tileBag);
       game.startGame();
       // NEW GAME CODE HERE
+
+
+
    }
    else if (selection == LOAD_GAME)
    {
@@ -97,19 +101,25 @@ void loadGame(string filename){
    isExist = loadFile.fail();
    if (isExist){
       cout << "Invalid input, please enter the files full name including extensions" << endl;
+      
    }
    }
-   string line;
-
-   getline(loadFile, line);
-   cout << line;
    vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
    LinkedList player1Hand;
    LinkedList player2Hand;
+   string line;
+   string playerName;
+   getline(loadFile, line);
+
+   loadFile >> playerName;
+   Player player1(playerName, 0, player1Hand);
+
+   loadFile >> playerName;
+   Player player2(playerName, 0, player2Hand);
+
    LinkedList* tileBag = new LinkedList();
    tileBag = createBag(tileBag, true);
-   Player player1("Player1", 0, player1Hand);
-   Player player2("Player2", 0, player2Hand);
+   
    
    //add them to game
    Game game(player1, player2, board, tileBag);
@@ -125,7 +135,7 @@ LinkedList* createBag(LinkedList* tileBag, bool gameLoad)
    if (gameLoad){
       cout << "Please enter the filename to load" << endl << "> ";
       cin >> inputFile;
-      //loadGame(inputFile);
+      loadGame(inputFile);
       //call loadGame here
    }
    ifstream file;
