@@ -48,10 +48,10 @@ int main(void)
       LinkedList* tileBag = new LinkedList();
       string player1name, player2name;
       while(nameCheck){
-         cout << "Enter player 1 name (All Caps):" << endl << "> ";
+         cout << "Enter a name for player 1 (uppercase characters only)" << endl << "> ";
          cin >> player1name;
             for(unsigned i = 0; i < player1name.length();i++){
-               if (isalpha(player1name[i])){
+               if ((player1name[i] <= 'Z') && (player1name[i] >= 'A')){
                   nameCheck = false;
                }
                else{
@@ -64,10 +64,10 @@ int main(void)
       //player 2 name
       cin.ignore(1, '\n');
       while(nameCheck){
-      cout << "Enter player 2 name (All Caps):" << endl << "> " ;
+      cout << "Enter a name for player 2 (uppercase characters only)" << endl << "> " ;
       cin >> player2name;
          for(unsigned i = 0; i < player2name.length();i++){
-            if (isalpha(player2name[i])){
+            if ((player2name[i] <= 'Z') && (player2name[i] >= 'A')){
                nameCheck = false;
             }
             else{
