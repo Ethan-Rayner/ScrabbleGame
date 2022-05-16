@@ -4,6 +4,9 @@
 
 #include "Player.h"
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include <random>
 
 class Game
 {
@@ -21,6 +24,7 @@ public:
     bool replaceTile(Player* player, char letter);
     void printHand(Player* player);
     void printPostGame(Player* player);
+    int genRand();
 
 
 private:

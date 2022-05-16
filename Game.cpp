@@ -1,8 +1,7 @@
 
 #include "Game.h"
 #include <iostream>
-#include <fstream>
-#include <sstream>
+
 
 
 #define EXIT_SUCCESS 0
@@ -273,10 +272,22 @@ int Game::getAction(Player* player){
     return passValue;
 }
 
+int Game::genRand(){
+    // randomises order drawn from tile bag
+    int min = 1;
+    int max = bag->size();
+
+    std::random_device engine;
+    std::uniform_int_distribution<int> uniform_dist(min, max);
+    return uniform_dist(engine);
+}
+
 void Game::drawPlayer(Player* player){
 
+
+    //gets random tile  from bag and adds to player hand until player hand is full
     for (int i = 0; player->getHand()->size() < 7; i++){
-        Tile* newTile = bag->get(i);
+        Tile* newTile = bag->get(genRand());
         player->getHand()->add(newTile);
         bag->remove(newTile);
         }
