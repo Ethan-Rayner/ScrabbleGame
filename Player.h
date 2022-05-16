@@ -14,9 +14,6 @@ public:
     void setName(std::string name);
     void placeTile(char letter);
     std::string name;
-    int startTurn(std::string input);
-    void replaceTurn();
-    char placeTurn(char tile);
     void printHand();
     LinkedList* getHand();
     
