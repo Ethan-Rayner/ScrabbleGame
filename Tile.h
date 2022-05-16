@@ -19,7 +19,7 @@ public:
 
 private:
 	string buff;
-	char word_tiles;
+//	char word_tiles;
 	char letter;
 	int value;
 };
