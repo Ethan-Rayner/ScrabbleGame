@@ -41,15 +41,47 @@ int main(void)
    // Menu selection
    if (selection == NEW_GAME)
    {
-      
+      bool nameCheck = true;
       vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
       LinkedList player1Hand;
       LinkedList player2Hand;
       LinkedList* tileBag = new LinkedList();
+      string player1name, player2name;
+      while(nameCheck){
+         cout << "Enter player 1 name (All Caps):" << endl << "> ";
+         cin >> player1name;
+            for(unsigned i = 0; i < player1name.length();i++){
+               if (isalpha(player1name[i])){
+                  nameCheck = false;
+               }
+               else{
+                  cout << "Invalid name" << endl;
+                  break;
+               }
+            }
+         }
+      nameCheck = true;
+      //player 2 name
+      cin.ignore(1, '\n');
+      while(nameCheck){
+      cout << "Enter player 2 name (All Caps):" << endl << "> " ;
+      cin >> player2name;
+         for(unsigned i = 0; i < player2name.length();i++){
+            if (isalpha(player2name[i])){
+               nameCheck = false;
+            }
+            else{
+               cout << "Invalid name" << endl;
+               break;
+            }
+         }
+      }
+
+
       tileBag = createBag(tileBag, false);
-      Player player1("Player1", 0, player1Hand);
-      Player player2("Player2", 0, player2Hand);
-      
+      Player player1(player1name, 0, player1Hand);
+      Player player2(player2name, 0, player2Hand);
+   
       //add them to game
       Game game(player1, player2, board, tileBag);
       game.startGame();

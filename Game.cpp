@@ -68,7 +68,7 @@ void Game::startGame(){
         //Save
         if(turnPass == 3){
             saveBoard("tester.txt");
-            break;
+            cout << "Game saved succesfully" << endl;
         }
         // Place/Replace
         if (turnPass == 0){
@@ -91,7 +91,8 @@ void Game::startGame(){
             turnPass = getAction(player2);
             
             if(turnPass == 3){
-                break;
+                saveBoard("tester.txt");
+                cout << "Game saved succesfully" << endl;
             }
             //checks if player has passed twice in a row, saved or placed/replaced.
             if (turnPass == 0){
@@ -120,8 +121,8 @@ void Game::startGame(){
 }
 
 void Game::printPostGame(Player* player){
-cout << "Game Over" << endl << "Score for " << player1->getName() << ": "<< player1->getScore() << endl << "Score for " << player2->getName() << ": " << player2->getScore() << endl;
-cout << player->getName() << " won!" << endl << "Goodbye" << endl;
+    cout << "Game Over" << endl << "Score for " << player1->getName() << ": "<< player1->getScore() << endl << "Score for " << player2->getName() << ": " << player2->getScore() << endl;
+    cout << player->getName() << " won!" << endl << "Goodbye" << endl;
 }
 
 bool Game::replaceTile(Player* player, char letter){
@@ -200,23 +201,32 @@ int Game::getAction(Player* player){
                     //check next "word" is a letter and not the same command as before
                     commandStream >> secondWord;
                     //checking != replace, is 1 character long, is a letter
-                    if ((!(secondWord == firstWord)) && (secondWord.length() == 1) && (secondWord[0] <= 'Z' && secondWord[0] >= 'A')){
-                        commandStream >> thirdWord;
-                        char letter = secondWord[0];
-                        if ((!(secondWord == thirdWord)) && (thirdWord== "at")){
-                            
-                            commandStream >> fourthWord;
-                            if ((!(thirdWord == fourthWord)) && (fourthWord.length() == 2) && (fourthWord[0] <= 'Z' && fourthWord[0] >= 'A') && (isdigit(fourthWord[1]))){
-                                int row =  fourthWord[0] - 'A';
-                                int col =  int(fourthWord[1]) - '0';
-                                    for(int i = 0; i < player->getHand()->size(); i++)
-                                        if (player->getHand()->get(i)->getLetter() == letter){
-                                        board[row][col] = letter;
-                                        player->setScore(player->getScore() + player->getHand()->get(i)->getValue());
-                                        player->getHand()->remove(player->getHand()->get(i));
-                                        printHand(player);
-                                        isValid = true;
-                                        break;
+                    if ((!(secondWord == firstWord)) && (secondWord.length() == 1) && (secondWord[0] <= 'Z' && secondWord[0] >= 'A')){ // check for 
+                        commandStream >> thirdWord; //create at
+                        char letter = secondWord[0]; //create letter
+
+                        if ((!(secondWord == thirdWord)) && (thirdWord== "at")){ // check for at
+                            commandStream >> fourthWord; // create position
+
+                            if ((!(thirdWord == fourthWord)) && (fourthWord.length() == 2) && (fourthWord[0] <= 'Z' && fourthWord[0] >= 'A') && (isdigit(fourthWord[1]))){ // if row is a letter and col is a number
+                                int row =  fourthWord[0] - 'A'; // set row
+                                int col =  int(fourthWord[1]) - '0'; //set col
+
+                                    for(int i = 0; i < player->getHand()->size(); i++) // loop through hand
+
+                                        if (player->getHand()->get(i)->getLetter() == letter){ // check letter is in hand
+
+                                            if(board[row][col] != 0){ // check tile isnt already on the board
+                                                cout << "Space already taken by another tile.";
+                                            }
+                                            else{ //else if space is empty, place tile on space and add score to player
+                                                board[row][col] = letter;
+                                                player->setScore(player->getScore() + player->getHand()->get(i)->getValue());
+                                                player->getHand()->remove(player->getHand()->get(i));
+                                                printHand(player);
+                                            }
+                                            isValid = true;
+                                            break;
                                     }
                                     else{
                                             isValid = false;
