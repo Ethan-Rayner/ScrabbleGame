@@ -33,7 +33,7 @@ int main(void)
              << endl;
 
    // Main Menu Prompt
-   cout << "Menu\n----\n1. New Game\n2. Load Game\n3. Credits (Show student information\n4. Quit\n\n> "
+   cout << "Menu\n----\n1. New Game\n2. Load Game\n3. Credits (Show student information)\n4. Quit\n\n> "
              << "";
    cin >> selection;
    cout << "" << endl;
@@ -51,7 +51,7 @@ int main(void)
       LinkedList* tileBag = new LinkedList();
       string player1name, player2name;
       //read in player names and check for capitalisation
-      while(nameCheck){
+      while(nameCheck && !cin.eof()){
          if(!cin){
                EOFbool = false;
                break;
@@ -103,7 +103,7 @@ int main(void)
    
       //add them to game
       Game game(player1, player2, board, tileBag);
-      game.startGame();
+      game.startGame(player1name);
       // NEW GAME CODE HERE
       }
       }

@@ -15,8 +15,8 @@ public:
     Game(Player player1, Player player2, vector<vector<char>> board, LinkedList* tileBag);
     ~Game();
     void printBoard();
-    void saveBoard(string filename); //true is player1, false is player 2
-    void startGame();
+    void saveBoard(string filename, string playername); //true is player1, false is player 2
+    void startGame(string playername);
     bool takeTurn(Player* player);
     void drawPlayer(Player* player);
     int getAction(Player* player);

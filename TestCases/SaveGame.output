@@ -1,23 +1,19 @@
-Welcome to Qwirkle!
-------------------
+Welcome to Scrabble!
+-------------------
 
 Menu
 ----
 1. New Game
 2. Load Game
-3. Credits
+3. Credits (Show student information)
 4. Quit
- 
+
 > 
- 
-Enter the filename from which load a game
->
+Please enter a filename
+> TestCases/SaveGame.saveANDREW score: 2
+JACK score: 6
 
-ANDREW, it's your turn
-Score for ANDREW: 2
-Score for JACK: 6
-
- 0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+      0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
 -----------------------------------------------------------------
 A   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 B   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
@@ -34,34 +30,4 @@ L   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 M   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 N   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 O   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-
-Your hand is 
-I-1 O-1 E-1 I-1 F-4 M-3 S-1
-
-> 
-
-Game successfully saved
-
-JACK, it's your turn
-Score for ANDREW: 6
-Score for JACK: 6
-
-       0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
------------------------------------------------------------------
-A   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-B   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-C   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-D   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-E   |   |   |   | R | A | I | N | Y |   |   |   |   |   |   |   |
-F   |   |   |   | E |   |   |   |   |   |   |   |   |   |   |   |
-G   |   |   |   | M |   |   |   |   |   |   |   |   |   |   |   |
-H   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-I   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-J   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-K   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-L   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-M   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-N   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-O   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-Your hand is 
-P-3 N-1 Y-4 I-1 O-1 L-1 A-1
+ANDREW's turn

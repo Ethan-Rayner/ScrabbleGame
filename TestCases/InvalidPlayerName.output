@@ -18,7 +18,7 @@ Enter a name for player 2 (uppercase characters only)
 Enter a name for player 2 (uppercase characters only)
 > 
 BOB score: 0
-SMITH score: 0
+JANE score: 0
 
       0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
 -----------------------------------------------------------------
@@ -38,5 +38,29 @@ M   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 N   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 O   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 BOB's turn
-Hand: A-1 R-1 V-4 B-3 R-1 I-1 N-1
+Hand: A-1 G-2 C-3 I-1 U-1 S-1 C-3
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
+> Invalid input, please try again.
+
 > 
