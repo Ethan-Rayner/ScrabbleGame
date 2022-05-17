@@ -1,52 +1,42 @@
-Welcome to Qwirkle!
-------------------
+Welcome to Scrabble!
+-------------------
 
 Menu
 ----
 1. New Game
 2. Load Game
-3. Credits
+3. Credits (Show student information
 4. Quit
- 
+
 > 
-
 Enter a name for player 1 (uppercase characters only)
->
-
-Invalid name
+> Invalid name
 Enter a name for player 1 (uppercase characters only)
->
-
+> 
 Enter a name for player 2 (uppercase characters only)
->
-
-Invalid name
+> Invalid name
 Enter a name for player 2 (uppercase characters only)
->
+> 
+BOB score: 0
+SMITH score: 0
 
-Let's Play!
-
-BOB, it's your turn
-Score for BOB: 0
-Score for SMITH: 0
-
-    0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 
-------------------------------------------------
-A  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-B  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-C  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-D  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-E  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-F  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-G  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-H  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-I  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-J  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-K  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-L  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-M  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-N  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-O  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-
-Your hand is 
-A-1 N-1 E-1 N-1 E-1 C-3 O-1
+      0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+-----------------------------------------------------------------
+A   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+D   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+BOB's turn
+Hand: R-1 N-1 T-1 A-1 U-1 Q-10 T-1
+> 

@@ -56,10 +56,12 @@ int main(void)
                }
                else{
                   cout << "Invalid name" << endl;
+                  nameCheck = true;
                   break;
                }
             }
          }
+      cout << endl;   
       nameCheck = true;
       //player 2 name
       cin.ignore(1, '\n');
@@ -72,10 +74,12 @@ int main(void)
             }
             else{
                cout << "Invalid name" << endl;
+               nameCheck = true;
                break;
             }
          }
       }
+      cout << endl;
 
 
       tileBag = createBag(tileBag, false);

@@ -50,7 +50,7 @@ Tile *LinkedList::get(int index)
       current = current->next;
    }
 
-   assert(0);
+   return (0);
 }
 
 void LinkedList::add(Tile *newTile)
