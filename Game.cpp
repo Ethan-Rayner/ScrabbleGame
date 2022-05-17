@@ -25,13 +25,17 @@ Game::~Game(){
     delete bag;
 }
 
-void Game::startGame(){
+void Game::startGame(string playername){
 
     bool gameGoing = true;
     int turnPass;
     int passCount1 = 0;
     int passCount2 = 0;
     cin.ignore(1, '\n');
+    bool player1Turn = false;
+    if (player1->getName() == playername){
+        player1Turn = true;
+    }
 
     while(gameGoing){
     //player one turn
@@ -40,6 +44,7 @@ void Game::startGame(){
         drawPlayer(player2);
         turnPass = 0;
         printBoard();
+        if(player1Turn){
         cout << player1->getName() << "'s turn" << endl;
         cout << "Hand:";
         printHand(player1);
@@ -48,7 +53,6 @@ void Game::startGame(){
         //checks if player has passed twice in a row, saved or placed/replaced.
         //Save
         if(turnPass == 3){
-            saveBoard("tester.txt");
             cout << "Game saved succesfully" << endl;
         }
 
@@ -65,7 +69,7 @@ void Game::startGame(){
         if (passCount1 == 2){
             break;
             }
-
+        }
         //player two turn
         if (gameGoing){
             turnPass = 0;
@@ -77,7 +81,6 @@ void Game::startGame(){
             turnPass = getAction(player2);
             
             if(turnPass == 3){
-                saveBoard("tester.txt");
                 cout << "Game saved succesfully" << endl;
             }
 
@@ -93,6 +96,7 @@ void Game::startGame(){
             if (passCount2 == 2){
                 break;
             }
+            player1Turn = true;
         }
     }
 
@@ -165,6 +169,8 @@ void Game::loadGame(){
         lines.push_back(line);
     }
 
+    //find out which player's turn it is
+    string playerturn = lines.back();
 
     //get player 1 input
 
@@ -183,7 +189,7 @@ void Game::loadGame(){
     // adds tiles to a playerhand linked list
     while(hand1SS >> nextWord){
         string word = nextWord;
-        if(nextWord.length() == 4){
+        if(nextWord.length() == 5){
             num1 =  (int((word[2])-'0')); //set grab both chars
             num2 = (int((word[3])-'0'));
             string value = to_string(num1) + to_string(num2);
@@ -211,7 +217,7 @@ void Game::loadGame(){
     stringstream hand2SS(hand2);
     while(hand2SS >> nextWord){
         string word = nextWord;
-        if(nextWord.length() == 4){
+        if(nextWord.length() == 5){
             num1 =  (int((word[2])-'0')); //set grab both chars
             num2 = (int((word[3])-'0'));
             string value = to_string(num1) + to_string(num2);
@@ -248,7 +254,7 @@ void Game::loadGame(){
     //add tiles to player hand
     while(tileBagStream >> nextWord){
     string word = nextWord;
-        if(nextWord.length() == 4){
+        if(nextWord.length() == 5){
             num1 =  (int((word[2])-'0')); //set grab both chars
             num2 = (int((word[3])-'0'));
             string value = to_string(num1) + to_string(num2);
@@ -263,7 +269,7 @@ void Game::loadGame(){
         bag->add(newTile);
     }
 
-    startGame();
+    startGame(playerturn);
     }
 
 }
@@ -409,8 +415,8 @@ int Game::getAction(Player* player){
                 passValue = 3;
                 commandStream >> secondWord;
                 if (!(secondWord == firstWord)){
-                saveBoard(secondWord);
-                break;
+                saveBoard(secondWord, player->getName());
+                cout << "Game saved succesfully" << endl;
                 }
                 else{
                     isValid = false;
@@ -446,18 +452,18 @@ void Game::drawPlayer(Player* player){
         }
     }
 
-void Game::saveBoard(string fileName){
+void Game::saveBoard(string fileName, string playername){
 
 std::ofstream outfile(fileName);
 //p1 hand output
 outfile << player1->getName() << endl << player1->getScore() << endl;
 for(int i =0; i< player1->getHand()->size(); i++){
-    outfile << player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue() << " ";
+    outfile << player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue() << ", ";
 }
 //p2 hand output
 outfile << endl <<  player2->getName() << endl << player2->getScore() << endl;
 for(int i =0; i< player2->getHand()->size(); i++){
-    outfile << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue() << " ";
+    outfile << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue() << ", ";
 }
 
 
@@ -499,8 +505,10 @@ for (int row = 0; row < ROWS; row++) {
 
 //tile bag output
 for(int i =0; i< bag->size(); i++){
-    outfile << bag->get(i)->getLetter() << "-" << bag->get(i)->getValue() << " ";
+    outfile << bag->get(i)->getLetter() << "-" << bag->get(i)->getValue() << ", ";
 }
+
+outfile << endl << playername;
 }
 
 void Game::printBoard(){

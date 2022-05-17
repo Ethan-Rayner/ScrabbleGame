@@ -103,7 +103,7 @@ int main(void)
    
       //add them to game
       Game game(player1, player2, board, tileBag);
-      game.startGame();
+      game.startGame(player1name);
       // NEW GAME CODE HERE
       }
       }
