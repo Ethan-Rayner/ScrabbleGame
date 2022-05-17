@@ -11,14 +11,14 @@ Player::Player(std::string name, int score, LinkedList hand){
 Player::~Player(){
 
 }
-
+//printing hand
 void Player::printHand(){
         for(int i = 0; i < playerHand->size(); i++){
          cout << playerHand->get(i)->getLetter();
          cout << playerHand->get(i)->getValue() << endl;
       }
 }
-
+//getters
 std::string Player::getName(){
     return name;
 }
@@ -30,7 +30,7 @@ LinkedList* Player::getHand(){
 int Player::getScore(){
     return score;
 }
-
+//setters
 void Player::setName(std::string name){
     this->name = name;
 }

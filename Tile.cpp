@@ -8,6 +8,7 @@ using namespace std;
 //Constructor
 Tile::Tile(char letter, int value)
 {
+	//setters
 	this->letter = letter;
 	this->value = value;
 }

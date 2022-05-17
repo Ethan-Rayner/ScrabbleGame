@@ -34,6 +34,8 @@ int main(void)
    // Main Menu Prompt
    cout << "Menu\n----\n1. New Game\n2. Load Game\n3. Credits (Show student information)\n4. Quit\n\n> "
              << "";
+
+             
    cin >> selection;
    cout << "" << endl;
 
@@ -57,6 +59,7 @@ int main(void)
             }
          cout << "Enter a name for player 1 (uppercase characters only)" << endl << "> ";
          cin >> player1name;
+         //loop through name to check uppercase
             for(unsigned i = 0; i < player1name.length();i++){
                if ((player1name[i] <= 'Z') && (player1name[i] >= 'A')){
                   nameCheck = false;
@@ -80,6 +83,7 @@ int main(void)
             }
       cout << "Enter a name for player 2 (uppercase characters only)" << endl << "> " ;
       cin >> player2name;
+      //loop through name to check uppercase
          for(unsigned i = 0; i < player2name.length();i++){
             if ((player2name[i] <= 'Z') && (player2name[i] >= 'A')){
                nameCheck = false;
@@ -96,7 +100,7 @@ int main(void)
 
       //read tiles into bag
       tileBag = createBag(tileBag);
-      
+      //make players
       Player player1(player1name, 0, player1Hand);
       Player player2(player2name, 0, player2Hand);
    
@@ -109,6 +113,7 @@ int main(void)
    }
    else if (selection == LOAD_GAME)
    {
+      //initialise variables
       vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
       LinkedList player1Hand;
       LinkedList player2Hand;
@@ -126,6 +131,7 @@ int main(void)
    }
    else if (selection == CREDITS)
    {
+      //credits
       cout << "----------------------------------" << endl;
       cout << "Name: Shuo Zhou\nStudent ID: s3849606\nEmail: s3849606@student.rmit.edu.au\n" << endl;
       cout << "Name: Ethan Rayner\nStudent ID: s3902240\nEmail: s3902240@student.rmit.edu.au\n" << endl;
@@ -148,6 +154,7 @@ int main(void)
 
 LinkedList* createBag(LinkedList* tileBag)
 {
+   //get input file and split it into lines
    string inputFile = "ScrabbleTiles.txt";
    ifstream file;
    string line;
@@ -157,6 +164,7 @@ LinkedList* createBag(LinkedList* tileBag)
    {
       while (getline(file, line))
       {
+         //split by whitespace
          std::string delimiter = " ";
          std::string letter = line.substr(0, line.find(delimiter));
          string value = line.substr(line.find(delimiter), -1);

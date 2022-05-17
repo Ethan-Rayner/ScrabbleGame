@@ -10,6 +10,7 @@
 #define CHAR    'A'
 
 Game::Game(Player player1Initial, Player player2Initial, vector<vector<char>> board, LinkedList* tileBag){
+    //constructor
     player1 = new Player(player1Initial);
     player2 = new Player(player2Initial);
     this->board = board;
@@ -20,13 +21,14 @@ Game::Game(Player player1Initial, Player player2Initial, vector<vector<char>> bo
 }
 
 Game::~Game(){
+    //deconstructor
     delete player1;
     delete player2;
     delete bag;
 }
 
 void Game::startGame(string playername){
-
+//variables
     bool gameGoing = true;
     int turnPass;
     int passCount1 = 0;
@@ -116,6 +118,7 @@ void Game::startGame(string playername){
 }
 
 void Game::printPostGame(Player* player){
+    //final game message
     cout << "Game Over" << endl << "Score for " << player1->getName() << ": "<< player1->getScore() << endl << "Score for " << player2->getName() << ": " << player2->getScore() << endl;
     cout << player->getName() << " won!" << endl << "Goodbye" << endl;
 }
@@ -157,7 +160,7 @@ void Game::loadGame(){
         }
         
     }
-
+    //vars for loading 
     int num1 = 0;
     int num2 = 0;
     int score = 0;
