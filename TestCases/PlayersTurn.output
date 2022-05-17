@@ -10,14 +10,8 @@ Menu
  
 > 
  
-Starting a New Game
-
-Enter name for player 1 (uppercase characters only)
+Enter the filename from which load a game
 >
-Enter name for player 2 (uppercase characters only)
->
-
-Let's Play!
 
 ANDREW, it's your turn
 Score for ANDREW: 0
@@ -42,12 +36,12 @@ N  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 O  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
 Your hand is 
-T-1, U-1, U-1, V-4, W-4, Y-4, Z-10, 
+I-1 O-1 A-1 E-1 R-1 I-1 F-4
 
 > 
 
 JACK, it's your turn
-Score for ANDREW: 1
+Score for ANDREW: 2
 Score for JACK: 0
 
     0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 
@@ -58,7 +52,7 @@ C  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 D  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 E  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 F  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-G  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+G  |  |  |  |  |  |R |A |  |  |  |  |  |  |  |  |
 H  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 I  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 J  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
@@ -69,11 +63,28 @@ N  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 O  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
 Your hand is 
-S-1 T-1 T-1 T-1 U-1 W-4 Y-4
+P-3 N-1 Y-4 I-1 N-1 I-1 O-1
 
 > 
 
 ANDREW, it's your turn
-Score for ANDREW: 1
-Score for JACK: 1
+Score for ANDREW: 2
+Score for JACK: 2
+    0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 
+------------------------------------------------
+A  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+B  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+C  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+D  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+E  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+F  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+G  |  |  |  |  |  |R |A |I |N |  |  |  |  |  |  |
+H  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+I  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+J  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+K  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+L  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+M  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+N  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+O  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 

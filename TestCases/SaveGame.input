@@ -1,0 +1,6 @@
+2
+TestCases/SaveGame.save
+place E at F4
+place M at G4
+save savedGame
+place Done
