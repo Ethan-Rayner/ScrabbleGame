@@ -17,31 +17,11 @@ Game::Game(Player player1Initial, Player player2Initial, vector<vector<char>> bo
 
 }
 
-Game::~Game(){}
-
-//TODO condense startGame into here 
-// void Game::takeTurn(Player* player){
-//     bool gameGoing = true;
-//     int turnPass;
-//     int passCount1 = 0;
-//     int passCount2 = 0;
-//     std::string input;
-//     //player one turn
-//     turnPass = 0;
-//     cout << player->getName() << "'s turn" << endl;
-//     printBoard();
-//     cout << "You may perform one of the following actions:" << endl << "Place | Pass | Replace" << endl << "You can also save the game at any time by typing 'Save'" << endl;
-//     cin >> input;
-//     turnPass = player->startTurn(input);
-//     //checks if player has passed twice in a row
-//     if (turnPass == 0){
-//         passCount1 = 0;
-//     }
-//     passCount1 += turnPass;
-//     if (passCount1 == 2){
-//         saveBoard(false);
-//     }
-// }
+Game::~Game(){
+    delete player1;
+    delete player2;
+    delete bag;
+}
 
 void Game::startGame(){
 
@@ -143,6 +123,7 @@ bool Game::replaceTile(Player* player, char letter){
             Tile* newTile = player->getHand()->get(i);
             player->getHand()->remove(newTile);
             bag->add(newTile);
+
             break;
         }
     }
@@ -221,7 +202,7 @@ int Game::getAction(Player* player){
                         if ((!(secondWord == thirdWord)) && (thirdWord== "at")){ // check for at
                             commandStream >> fourthWord; // create position
 
-                            if ((!(thirdWord == fourthWord)) && (fourthWord.length() == 2) && (fourthWord[0] <= 'Z' && fourthWord[0] >= 'A') && (isdigit(fourthWord[1]))){ // if row is a letter and col is a number
+                            if ((!(thirdWord == fourthWord)) && (fourthWord.length() == 2) && (fourthWord[0] <= 'O' && fourthWord[0] >= 'A') && (isdigit(fourthWord[1]))){ // if row is a letter and col is a number
                                 int row =  fourthWord[0] - 'A'; // set row
                                 int col =  int(fourthWord[1]) - '0'; //set col
 
@@ -245,6 +226,33 @@ int Game::getAction(Player* player){
                                             isValid = false;
                                     }
                                     
+                            }
+
+                            else if ((!(thirdWord == fourthWord)) && (fourthWord.length() == 3) && (fourthWord[0] <= 'O' && fourthWord[0] >= 'A') && (isdigit(fourthWord[1])) && (isdigit(fourthWord[2]))){ // if row is a letter and col is a number
+                                int row =  fourthWord[0] - 'A'; // set row
+                                int col1 =  (int(fourthWord[1]) - '0'); //set col
+                                int col2 = (int(fourthWord[2]) - '0');
+                                string colTemp = to_string(col1) + to_string(col2);
+                                int col = stoi(colTemp);
+                                    for(int i = 0; i < player->getHand()->size(); i++) // loop through hand
+
+                                        if (player->getHand()->get(i)->getLetter() == letter){ // check letter is in hand
+
+                                            if(board[row][col] != 0){ // check tile isnt already on the board
+                                                cout << "Space already taken by another tile.";
+                                            }
+                                            else{ //else if space is empty, place tile on space and add score to player
+                                                board[row][col] = letter;
+                                                player->setScore(player->getScore() + player->getHand()->get(i)->getValue());
+                                                player->getHand()->remove(player->getHand()->get(i));
+                                                printHand(player);
+                                            }
+                                            isValid = true;
+                                            break;
+                                    }
+                                    else{
+                                            isValid = false;
+                                    }
                             }
                             else{
                                 isValid = false;
@@ -304,6 +312,7 @@ void Game::drawPlayer(Player* player){
         Tile* newTile = bag->get(genRand());
         player->getHand()->add(newTile);
         bag->remove(newTile);
+
         }
     }
 

@@ -14,6 +14,7 @@ Tile::Tile(char letter, int value)
 
 Tile::~Tile()
 {
+
 }
 
 // Getters

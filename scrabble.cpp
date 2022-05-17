@@ -16,7 +16,7 @@ using std::cin;
 using std::endl;
 
 void printBoard();
-void loadGame(string filename);
+//Game loadGame(string filename);
 LinkedList* createBag(LinkedList* tileBag, bool gameLoad);
 
 int main(void)
@@ -41,12 +41,15 @@ int main(void)
    // Menu selection
    if (selection == NEW_GAME)
    {
+
+      //declare variables for game
       bool nameCheck = true;
       vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
       LinkedList player1Hand;
       LinkedList player2Hand;
       LinkedList* tileBag = new LinkedList();
       string player1name, player2name;
+      //read in player names and check for capitalisation
       while(nameCheck){
          cout << "Enter a name for player 1 (uppercase characters only)" << endl << "> ";
          cin >> player1name;
@@ -81,7 +84,7 @@ int main(void)
       }
       cout << endl;
 
-
+      //read tiles into bag
       tileBag = createBag(tileBag, false);
       Player player1(player1name, 0, player1Hand);
       Player player2(player2name, 0, player2Hand);
@@ -90,7 +93,6 @@ int main(void)
       Game game(player1, player2, board, tileBag);
       game.startGame();
       // NEW GAME CODE HERE
-
 
 
    }
@@ -103,6 +105,8 @@ int main(void)
          cout << tileBag->get(i)->getLetter();
          cout << tileBag->get(i)->getValue() << endl;
       }
+      
+      //Game game = loadGame();
 
    }
    else if (selection == CREDITS)
@@ -127,43 +131,43 @@ int main(void)
    return EXIT_SUCCESS;
 }
 
-void loadGame(string filename){
-   bool isExist = true;
-   ifstream loadFile;
+// Game loadGame(string filename){
+//    bool isExist = true;
+//    ifstream loadFile;
    
-   while (isExist){
+//    while (isExist){
    
-   loadFile.open(filename);
-   isExist = loadFile.fail();
-   if (isExist){
-      cout << "Invalid input, please enter the files full name including extensions" << endl;
+//    loadFile.open(filename);
+//    isExist = loadFile.fail();
+//    if (isExist){
+//       cout << "Invalid input, please enter the files full name including extensions" << endl;
       
-   }
-   }
-   vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
-   LinkedList player1Hand;
-   LinkedList player2Hand;
-   string line;
-   string playerName;
-   getline(loadFile, line);
+//    }
+//    }
+//    vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
+//    LinkedList player1Hand;
+//    LinkedList player2Hand;
+//    string line;
+//    string playerName;
+//    getline(loadFile, line);
 
-   loadFile >> playerName;
-   Player player1(playerName, 0, player1Hand);
+//    loadFile >> playerName;
+//    Player player1(playerName, 0, player1Hand);
 
-   loadFile >> playerName;
-   Player player2(playerName, 0, player2Hand);
+//    loadFile >> playerName;
+//    Player player2(playerName, 0, player2Hand);
 
-   LinkedList* tileBag = new LinkedList();
-   tileBag = createBag(tileBag, true);
+//    LinkedList* tileBag = new LinkedList();
+//    tileBag = createBag(tileBag, true);
    
    
-   //add them to game
-   Game game(player1, player2, board, tileBag);
+//    //add them to game
+//    Game game(player1, player2, board, tileBag);
 
    
 
 
-}
+// }
 
 LinkedList* createBag(LinkedList* tileBag, bool gameLoad)
 {
@@ -171,7 +175,7 @@ LinkedList* createBag(LinkedList* tileBag, bool gameLoad)
    if (gameLoad){
       cout << "Please enter the filename to load" << endl << "> ";
       cin >> inputFile;
-      loadGame(inputFile);
+      //loadGame(inputFile);
       //call loadGame here
    }
    ifstream file;

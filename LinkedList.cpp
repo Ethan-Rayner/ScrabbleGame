@@ -72,7 +72,6 @@ void LinkedList::remove(Tile* key)
    {
       head = temp->next;
       delete temp;
-      return;
    }
    else
    {
@@ -84,11 +83,16 @@ void LinkedList::remove(Tile* key)
 
       if (temp == NULL)
       {
-         return;
+         
       }
+      else{
       prev->next = temp->next;
       delete temp;
+      }
+   
    }
+return;
+
 }
 
 void LinkedList::clear()
@@ -105,39 +109,3 @@ void LinkedList::clear()
    head = NULL;
 }
 
-
-// Reading from file and add it to linkedlist
-// void LinkedList::addTile(Node* head)
-// {
-//    ifstream file;
-//    string buf;
-//    file.open("scrabbletiles.txt", ios::in | ios::binary);
-//    // checking if file is open
-//    if (file.is_open())
-//    {
-//       cout << "The file is opened fail" << endl;
-//       while (getline(file, buf))
-//       {
-//          istringstream iss(buf);
-//          char letter;
-//          int value;
-//          iss >> letter >> value;
-//          // Code for testing if values are printed out correctly
-//          // cout << "Letter: " << letter << " Value: " << value << endl;
-
-//          LinkedList* tilebag = new LinkedList();
-//          head = NULL;
-//          for (int i = 0; i < 98; i++)
-//          {
-//             Tile* tile = new Tile(letter, value);
-//              //head = new Node (letter, value);
-//             tilebag->add(tile);
-//          }
-//       }
-//       while (!file.eof())
-//       {
-//       }
-
-//       file.close();
-//    }
-// }
