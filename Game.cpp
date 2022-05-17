@@ -15,6 +15,8 @@ Game::Game(Player player1Initial, Player player2Initial, vector<vector<char>> bo
     this->board = board;
     bag = tileBag;
 
+
+
 }
 
 Game::~Game(){
@@ -33,9 +35,9 @@ void Game::startGame(){
 
     while(gameGoing){
     //player one turn
+
         drawPlayer(player1);
         drawPlayer(player2);
-
         turnPass = 0;
         printBoard();
         cout << player1->getName() << "'s turn" << endl;
@@ -131,6 +133,144 @@ bool Game::replaceTile(Player* player, char letter){
     return false;
 }
 
+void Game::loadGame(){
+    //get file name
+    string filename;
+    cout << "Please enter a filename" << endl << "> ";
+    cin >> filename;
+
+    //declare variables and load file
+    bool isExist = true;
+    ifstream loadFile;
+    cout << filename << flush;
+    while (isExist){
+        loadFile.open(filename);
+        isExist = loadFile.fail();
+        if (isExist){
+            cout << "Invalid input, please enter the files full name including extensions" << endl;   
+        }
+    }
+
+    int num1 = 0;
+    int num2 = 0;
+    int score = 0;
+    string hand1;
+    string hand2;
+    vector<string> lines;
+    string line;
+    
+
+    while (getline(loadFile, line)){
+        lines.push_back(line);
+    }
+
+
+    //get player 1 input
+
+    //name
+    player1->setName(lines[0]);
+    //score
+    player1->setScore(stoi(lines[1]));
+    //hand string
+    hand1 = lines[2];
+    loadFile.ignore(1, '\n');
+    //add tiles to player hand
+    //create player 1
+    string nextWord;
+    stringstream hand1SS(hand1);
+
+    // adds tiles to a playerhand linked list
+    while(hand1SS >> nextWord){
+        string word = nextWord;
+        if(nextWord.length() == 4){
+            num1 =  (int((word[2])-'0')); //set grab both chars
+            num2 = (int((word[3])-'0'));
+            string value = to_string(num1) + to_string(num2);
+            score = stoi(value);
+        }
+        else{
+            num1 =  (int((word[2])-'0'));
+            string value = to_string(num1);
+            score = stoi(value);
+        }
+        Tile* newTile = new Tile(word[0], score);
+        player1->getHand()->add(newTile); //broken
+    }
+
+        //name
+    player2->setName(lines[3]);
+    //score
+    player2->setScore(stoi(lines[4]));
+    //hand string
+    hand2 = lines[5];
+    loadFile.ignore(1, '\n');
+    //add tiles to player hand
+    //create player 2
+
+    stringstream hand2SS(hand2);
+    while(hand2SS >> nextWord){
+        string word = nextWord;
+        if(nextWord.length() == 4){
+            num1 =  (int((word[2])-'0')); //set grab both chars
+            num2 = (int((word[3])-'0'));
+            string value = to_string(num1) + to_string(num2);
+            score = stoi(value);
+        }
+        else{
+            num1 =  (int((word[2])-'0'));
+            string value = to_string(num1);
+            score = stoi(value);
+        }
+        Tile* newTile = new Tile(word[0], score);
+        player2->getHand()->add(newTile);
+        
+    }
+
+    //create bag
+    string newLine;
+
+    newLine = lines[6];
+    stringstream tileBagStream(newLine);
+    //add tiles to player hand
+    while(tileBagStream >> nextWord){
+    string word = nextWord;
+        if(nextWord.length() == 4){
+            num1 =  (int((word[2])-'0')); //set grab both chars
+            num2 = (int((word[3])-'0'));
+            string value = to_string(num1) + to_string(num2);
+            score = stoi(value);
+        }
+        else{
+            num1 =  (int((word[2])-'0'));
+            string value = to_string(num1);
+            score = stoi(value);
+        }
+        Tile* newTile = new Tile(word[0], score);
+        bag->add(newTile);
+    }
+
+    int offset = 6;
+    int charOffset = 3;
+    for(int i =0; i < COLUMNS; i++){
+        string boardLine = lines[9 + i];
+        for(int j = 0; j < ROWS; j++){ 
+            int index = (offset + j) + (j*charOffset);
+            char letter = boardLine[index];
+            board[i][j] = letter;
+        
+        }
+    }
+
+    for(int i =0; i < COLUMNS; i++){
+        for(int j = 0; j < ROWS; j++){ 
+            cout << "cur:  I:"<<  i  << " J: "<< j << " val: " <<  board[i][j] << endl;
+        
+        }
+    }
+    startGame();
+    //return game;
+}
+
 
 void Game::printHand(Player* player){
             for(int i = 0; i < player->getHand()->size(); i++){
@@ -145,11 +285,6 @@ int Game::getAction(Player* player){
         
         string thirdWord; //at
         string fourthWord; //row&col
-
-        // int placedRow; //store the row the player is currently placing in
-        // int placedcol; //store the col the player is currently placing in
-        // bool rowPriority = false; // designate the row as the priority
-        // bool colPriority = false;
 
         bool isValid = true;
         int passValue =0;
@@ -217,7 +352,6 @@ int Game::getAction(Player* player){
                                                 board[row][col] = letter;
                                                 player->setScore(player->getScore() + player->getHand()->get(i)->getValue());
                                                 player->getHand()->remove(player->getHand()->get(i));
-                                                printHand(player);
                                             }
                                             isValid = true;
                                             break;
@@ -245,7 +379,6 @@ int Game::getAction(Player* player){
                                                 board[row][col] = letter;
                                                 player->setScore(player->getScore() + player->getHand()->get(i)->getValue());
                                                 player->getHand()->remove(player->getHand()->get(i));
-                                                printHand(player);
                                             }
                                             isValid = true;
                                             break;
@@ -297,10 +430,10 @@ int Game::getAction(Player* player){
 int Game::genRand(){
     // randomises order drawn from tile bag
     int min = 1;
-    int max = bag->size();
-
+    int max = bag->size() -1 ;
     std::random_device engine;
     std::uniform_int_distribution<int> uniform_dist(min, max);
+    
     return uniform_dist(engine);
 }
 
@@ -309,31 +442,37 @@ void Game::drawPlayer(Player* player){
 
     //gets random tile  from bag and adds to player hand until player hand is full
     for (int i = 0; player->getHand()->size() < 7; i++){
-        Tile* newTile = bag->get(genRand());
+        int num = genRand();
+        Tile* newTile = bag->get(num);
         player->getHand()->add(newTile);
         bag->remove(newTile);
-
         }
     }
 
 void Game::saveBoard(string fileName){
 
 std::ofstream outfile(fileName);
-//p1 hand
+//p1 hand output
 outfile << player1->getName() << endl << player1->getScore() << endl;
 for(int i =0; i< player1->getHand()->size(); i++){
     outfile << player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue() << " ";
 }
-//p2 hand
+//p2 hand output
 outfile << endl <<  player2->getName() << endl << player2->getScore() << endl;
 for(int i =0; i< player2->getHand()->size(); i++){
     outfile << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue() << " ";
 }
-    //printing out column
+outfile << endl;
+//tile bag output
+for(int i =0; i< bag->size(); i++){
+    outfile << bag->get(i)->getLetter() << "-" << bag->get(i)->getValue() << " ";
+}
+
+    //output column
 outfile << endl;
 char rowTag = CHAR;
 
-//Printing out rows
+//output rows
   for(int column = 0; column < COLUMNS; column++){
      if(column > 9){
         outfile << column << "  " ;
@@ -348,7 +487,7 @@ char rowTag = CHAR;
         outfile << "-----------------------------------------------------------------";
         outfile << endl;
 
-//Printing out rows
+//output rows
 for (int row = 0; row < ROWS; row++) {
         outfile << rowTag << "   " << "|";     
         rowTag++;
@@ -365,8 +504,6 @@ for (int row = 0; row < ROWS; row++) {
         outfile << endl; 
     }
 }
-
-
 
 void Game::printBoard(){
 
@@ -397,7 +534,7 @@ for (int row = 0; row < ROWS; row++) {
 
         for (int column = 0; column < COLUMNS; column++) {
             
-            if (board[row][column] == 0) { 
+            if (board[row][column] == 0 || board[row][column] == '0') { 
                 cout << "   ";
             } else {
                 cout << " " << board[row][column] << " ";  

@@ -24,6 +24,7 @@ public:
     bool replaceTile(Player* player, char letter);
     void printHand(Player* player);
     void printPostGame(Player* player);
+    void loadGame();
     int genRand();
 
 

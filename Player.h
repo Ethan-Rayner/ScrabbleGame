@@ -16,6 +16,7 @@ public:
     std::string name;
     void printHand();
     LinkedList* getHand();
+    void setHand(LinkedList hand);
     
 private:
    

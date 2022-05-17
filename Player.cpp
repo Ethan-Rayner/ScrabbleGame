@@ -5,7 +5,6 @@ Player::Player(std::string name, int score, LinkedList hand){
     this->name = name;
     this->score = score;
     playerHand = new LinkedList(hand);
-    
 }
 
 //Deconstructor
@@ -38,6 +37,12 @@ void Player::setName(std::string name){
 
 void Player::setScore(int score){
     this->score = score;
+}
+
+
+void Player::setHand(LinkedList hand){
+    playerHand = new LinkedList(hand);
+
 }
 
 

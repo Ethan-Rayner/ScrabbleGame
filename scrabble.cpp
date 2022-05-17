@@ -16,8 +16,8 @@ using std::cin;
 using std::endl;
 
 void printBoard();
-//Game loadGame(string filename);
-LinkedList* createBag(LinkedList* tileBag, bool gameLoad);
+void loadGame(LinkedList player1hand, LinkedList player2hand);
+LinkedList* createBag(LinkedList* tileBag);
 
 int main(void)
 {
@@ -44,6 +44,7 @@ int main(void)
 
       //declare variables for game
       bool nameCheck = true;
+      bool EOFbool = false;
       vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
       LinkedList player1Hand;
       LinkedList player2Hand;
@@ -51,6 +52,10 @@ int main(void)
       string player1name, player2name;
       //read in player names and check for capitalisation
       while(nameCheck){
+         if(!cin){
+               EOFbool = false;
+               break;
+            }
          cout << "Enter a name for player 1 (uppercase characters only)" << endl << "> ";
          cin >> player1name;
             for(unsigned i = 0; i < player1name.length();i++){
@@ -64,11 +69,16 @@ int main(void)
                }
             }
          }
+      if(!EOFbool){
       cout << endl;   
       nameCheck = true;
       //player 2 name
       cin.ignore(1, '\n');
       while(nameCheck){
+         if(!cin){
+               EOFbool = false;
+               break;
+            }
       cout << "Enter a name for player 2 (uppercase characters only)" << endl << "> " ;
       cin >> player2name;
          for(unsigned i = 0; i < player2name.length();i++){
@@ -82,10 +92,12 @@ int main(void)
             }
          }
       }
+      if(!EOFbool){
       cout << endl;
 
       //read tiles into bag
-      tileBag = createBag(tileBag, false);
+      tileBag = createBag(tileBag);
+      
       Player player1(player1name, 0, player1Hand);
       Player player2(player2name, 0, player2Hand);
    
@@ -93,20 +105,24 @@ int main(void)
       Game game(player1, player2, board, tileBag);
       game.startGame();
       // NEW GAME CODE HERE
-
-
+      }
+      }
    }
    else if (selection == LOAD_GAME)
    {
-      
+      vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
+      LinkedList player1Hand;
+      LinkedList player2Hand;
       LinkedList* tileBag = new LinkedList();
-      tileBag = createBag(tileBag, true);
-      for(int i = 0; i < tileBag->size(); i++){
-         cout << tileBag->get(i)->getLetter();
-         cout << tileBag->get(i)->getValue() << endl;
-      }
+      string player1name, player2name;
+      //read tiles into bag
       
-      //Game game = loadGame();
+      Player player1(player1name, 0, player1Hand);
+      Player player2(player2name, 0, player2Hand);
+   
+      //add them to game
+      Game game(player1, player2, board, tileBag);
+      game.loadGame();
 
    }
    else if (selection == CREDITS)
@@ -131,53 +147,9 @@ int main(void)
    return EXIT_SUCCESS;
 }
 
-// Game loadGame(string filename){
-//    bool isExist = true;
-//    ifstream loadFile;
-   
-//    while (isExist){
-   
-//    loadFile.open(filename);
-//    isExist = loadFile.fail();
-//    if (isExist){
-//       cout << "Invalid input, please enter the files full name including extensions" << endl;
-      
-//    }
-//    }
-//    vector<vector<char>> board(ROWS, vector<char> (COLUMNS));
-//    LinkedList player1Hand;
-//    LinkedList player2Hand;
-//    string line;
-//    string playerName;
-//    getline(loadFile, line);
-
-//    loadFile >> playerName;
-//    Player player1(playerName, 0, player1Hand);
-
-//    loadFile >> playerName;
-//    Player player2(playerName, 0, player2Hand);
-
-//    LinkedList* tileBag = new LinkedList();
-//    tileBag = createBag(tileBag, true);
-   
-   
-//    //add them to game
-//    Game game(player1, player2, board, tileBag);
-
-   
-
-
-// }
-
-LinkedList* createBag(LinkedList* tileBag, bool gameLoad)
+LinkedList* createBag(LinkedList* tileBag)
 {
    string inputFile = "ScrabbleTiles.txt";
-   if (gameLoad){
-      cout << "Please enter the filename to load" << endl << "> ";
-      cin >> inputFile;
-      //loadGame(inputFile);
-      //call loadGame here
-   }
    ifstream file;
    string line;
    file.open(inputFile, ios::in | ios::binary);
