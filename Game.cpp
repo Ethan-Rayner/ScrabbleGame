@@ -144,7 +144,6 @@ void Game::loadGame(){
     //declare variables and load file
     bool isExist = true;
     ifstream loadFile;
-    cout << filename << flush;
     while (isExist){
         loadFile.open(filename);
         isExist = loadFile.fail();
@@ -229,9 +228,21 @@ void Game::loadGame(){
     }
 
     //create bag
+
+    int offset = 6;
+    int charOffset = 3;
+    for(int i =0; i < COLUMNS; i++){
+        string boardLine = lines[8 + i];
+        for(int j = 0; j < ROWS; j++){ 
+            int index = (offset + j) + (j*charOffset);
+            char letter = boardLine[index];
+            board[i][j] = letter;
+        
+        }
+    }
     string newLine;
 
-    newLine = lines[6];
+    newLine = lines[24];
     stringstream tileBagStream(newLine);
     //add tiles to player hand
     while(tileBagStream >> nextWord){
@@ -249,18 +260,6 @@ void Game::loadGame(){
         }
         Tile* newTile = new Tile(word[0], score);
         bag->add(newTile);
-    }
-
-    int offset = 6;
-    int charOffset = 3;
-    for(int i =0; i < COLUMNS; i++){
-        string boardLine = lines[9 + i];
-        for(int j = 0; j < ROWS; j++){ 
-            int index = (offset + j) + (j*charOffset);
-            char letter = boardLine[index];
-            board[i][j] = letter;
-        
-        }
     }
 
     startGame();
@@ -459,11 +458,7 @@ outfile << endl <<  player2->getName() << endl << player2->getScore() << endl;
 for(int i =0; i< player2->getHand()->size(); i++){
     outfile << player2->getHand()->get(i)->getLetter() << "-" << player2->getHand()->get(i)->getValue() << " ";
 }
-outfile << endl;
-//tile bag output
-for(int i =0; i< bag->size(); i++){
-    outfile << bag->get(i)->getLetter() << "-" << bag->get(i)->getValue() << " ";
-}
+
 
     //output column
 outfile << endl;
@@ -492,7 +487,7 @@ for (int row = 0; row < ROWS; row++) {
         for (int column = 0; column < COLUMNS; column++) {
             
             if (board[row][column] == 0) { 
-                outfile <<" " << 0 << " ";
+                outfile <<" " << ' ' << " ";
             } else {
                 outfile << " " << board[row][column] << " ";  
             }
@@ -500,6 +495,11 @@ for (int row = 0; row < ROWS; row++) {
         } 
         outfile << endl; 
     }
+
+//tile bag output
+for(int i =0; i< bag->size(); i++){
+    outfile << bag->get(i)->getLetter() << "-" << bag->get(i)->getValue() << " ";
+}
 }
 
 void Game::printBoard(){
