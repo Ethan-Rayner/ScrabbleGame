@@ -139,6 +139,8 @@ void Game::loadGame(){
     cout << "Please enter a filename" << endl << "> ";
     cin >> filename;
 
+    if ((!cin.eof())){
+
     //declare variables and load file
     bool isExist = true;
     ifstream loadFile;
@@ -268,7 +270,8 @@ void Game::loadGame(){
         }
     }
     startGame();
-    //return game;
+    }
+
 }
 
 
