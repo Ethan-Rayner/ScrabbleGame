@@ -240,9 +240,10 @@ void Game::loadGame(){
         
         }
     }
+
     string newLine;
 
-    newLine = lines[24];
+    newLine = lines[23];
     stringstream tileBagStream(newLine);
     //add tiles to player hand
     while(tileBagStream >> nextWord){
@@ -341,7 +342,7 @@ int Game::getAction(Player* player){
 
                                         if (player->getHand()->get(i)->getLetter() == letter){ // check letter is in hand
 
-                                            if(board[row][col] != 0){ // check tile isnt already on the board
+                                            if(isalpha(board[row][col])){ // check tile isnt already on the board
                                                 cout << "Space already taken by another tile.";
                                             }
                                             else{ //else if space is empty, place tile on space and add score to player
@@ -368,7 +369,7 @@ int Game::getAction(Player* player){
 
                                         if (player->getHand()->get(i)->getLetter() == letter){ // check letter is in hand
 
-                                            if(board[row][col] != 0){ // check tile isnt already on the board
+                                            if(isalpha(board[row][col])){ // check tile isnt already on the board
                                                 cout << "Space already taken by another tile.";
                                             }
                                             else{ //else if space is empty, place tile on space and add score to player
