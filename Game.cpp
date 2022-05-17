@@ -152,8 +152,10 @@ void Game::loadGame(){
         loadFile.open(filename);
         isExist = loadFile.fail();
         if (isExist){
-            cout << "Invalid input, please enter the files full name including extensions" << endl;   
+            cout << "Invalid input, please enter the file's full name including extensions" << endl << "> ";   
+            cin >> filename;
         }
+        
     }
 
     int num1 = 0;

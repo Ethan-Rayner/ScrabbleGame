@@ -16,7 +16,6 @@ using std::cin;
 using std::endl;
 
 void printBoard();
-void loadGame(LinkedList player1hand, LinkedList player2hand);
 LinkedList* createBag(LinkedList* tileBag);
 
 int main(void)
