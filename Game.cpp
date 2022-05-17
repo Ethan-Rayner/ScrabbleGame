@@ -263,12 +263,6 @@ void Game::loadGame(){
         }
     }
 
-    for(int i =0; i < COLUMNS; i++){
-        for(int j = 0; j < ROWS; j++){ 
-            cout << "cur:  I:"<<  i  << " J: "<< j << " val: " <<  board[i][j] << endl;
-        
-        }
-    }
     startGame();
     }
 
