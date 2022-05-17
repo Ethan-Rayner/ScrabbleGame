@@ -125,7 +125,7 @@ void Game::printPostGame(Player* player){
 
 bool Game::replaceTile(Player* player, char letter){
 
-//TODO make this random
+// gets random tile and adds it to the tile bag
 
     for(int i = 0; i < player->getHand()->size(); i++){
         if(player->getHand()->get(i)->getLetter() == letter){
@@ -296,7 +296,6 @@ int Game::getAction(Player* player){
 
         bool isValid = true;
         int passValue =0;
-        //TODO (nextWord[0] <= 'O' && nextWord[0] >= 'A') = between O and A
         //Get action
         while(true){
             //check if entered command is a valid command
